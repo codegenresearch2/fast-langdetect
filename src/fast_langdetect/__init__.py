@@ -1,3 +1,3 @@
-# -*- coding: utf-8 -*-
+from fast_langdetect import detect, detect_multilingual, detect_language
 
-from .ft_detect import detect, detect_language, detect_langs, detect_multilingual  # noqa: F401
+# -*- coding: utf-8 -*-
