@@ -11,6 +11,8 @@ MODELS = {"low_mem": None, "high_mem": None}
 FTLANG_CACHE = os.getenv("FTLANG_CACHE", "/tmp/fasttext-langdetect")
 
 try:
+    # Silences warnings as the package does not properly use the python 'warnings' package
+    # see https://github.com/facebookresearch/fastText/issues/1056
     fasttext.FastText.eprint = lambda *args, **kwargs: None
 except Exception:
     pass
@@ -18,7 +20,7 @@ except Exception:
 class DetectError(Exception):
     pass
 
-def model_map(low_memory=False) -> tuple:
+def get_model_map(low_memory=False) -> tuple:
     """
     Returns a tuple containing the model mode, cache directory, model name, and model URL based on the low_memory flag.
 
@@ -30,7 +32,7 @@ def model_map(low_memory=False) -> tuple:
     else:
         return "high_mem", FTLANG_CACHE, "lid.176.bin", "https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.bin"
 
-def load_model(low_memory: bool = False, download_proxy: str = None) -> fasttext.FastText._FastText:
+def get_model_loaded(low_memory: bool = False, download_proxy: str = None) -> fasttext.FastText._FastText:
     """
     Loads the language detection model based on the low_memory flag and downloads it if necessary.
 
@@ -39,7 +41,7 @@ def load_model(low_memory: bool = False, download_proxy: str = None) -> fasttext
     :return: The loaded language detection model.
     :raises Exception: If there is an error loading the model.
     """
-    mode, cache, name, url = model_map(low_memory)
+    mode, cache, name, url = get_model_map(low_memory)
     loaded = MODELS.get(mode, None)
     if loaded:
         return loaded
@@ -54,7 +56,7 @@ def load_model(low_memory: bool = False, download_proxy: str = None) -> fasttext
         except Exception as e:
             logger.error(f"Error loading model {model_path}: {e}")
             download(url=url, folder=cache, filename=name, proxy=download_proxy)
-            raise e
+            raise Exception(f"Error loading model {model_path}") from e
         else:
             return loaded_model
 
@@ -74,13 +76,13 @@ def detect(text: str, *, low_memory: bool = True, model_download_proxy: str = No
     :raises Exception: If there is an error in the detect function.
     """
     try:
-        model = load_model(low_memory=low_memory, download_proxy=model_download_proxy)
+        model = get_model_loaded(low_memory=low_memory, download_proxy=model_download_proxy)
         labels, scores = model.predict(text)
         label = labels[0].replace("__label__", '')
         score = min(float(scores[0]), 1.0)
         return {"lang": label, "score": score}
     except Exception as e:
-        raise e
+        raise Exception("Error in detect function") from e
 
 def detect_multilingual(text: str, *, low_memory: bool = True, model_download_proxy: str = None, k: int = 5, threshold: float = 0.0, on_unicode_error: str = "strict") -> List[dict]:
     """
@@ -96,7 +98,7 @@ def detect_multilingual(text: str, *, low_memory: bool = True, model_download_pr
     :raises Exception: If there is an error in the detect_multilingual function.
     """
     try:
-        model = load_model(low_memory=low_memory, download_proxy=model_download_proxy)
+        model = get_model_loaded(low_memory=low_memory, download_proxy=model_download_proxy)
         labels, scores = model.predict(text=text, k=k, threshold=threshold, on_unicode_error=on_unicode_error)
         detect_result = []
         for label, score in zip(labels, scores):
@@ -105,4 +107,4 @@ def detect_multilingual(text: str, *, low_memory: bool = True, model_download_pr
             detect_result.append({"lang": label, "score": score})
         return sorted(detect_result, key=lambda i: i['score'], reverse=True)
     except Exception as e:
-        raise e
+        raise Exception("Error in detect_multilingual function") from e
