@@ -4,21 +4,19 @@
 # @File    : __init__.py.py
 # @Software: PyCharm
 
+# Import necessary functions from fast_langdetect
 from fast_langdetect import detect, detect_language, detect_multilingual
 
 # Testing language detection for various languages
+
+# English using detect function
+print(detect("hello world"))
 
 # Chinese
 print(detect_language("你好世界"))
 
 # Multilingual sentence
 print(detect_language("你好世界！Hello, world！Привет, мир！"))
-
-# Multilingual detection
-print(detect_multilingual("Hello, world!你好世界!Привет, мир!"))
-
-# English using detect function
-print(detect("hello world"))
 
 # Russian
 print(detect_multilingual("Привет, мир!"))
@@ -37,6 +35,9 @@ print(detect_language("Hallo Welt"))
 
 # Spanish
 print(detect_language("Hola mundo"))
+
+# Multilingual detection
+print(detect_multilingual("Hello, world!你好世界!Привет, мир!"))
 
 # Complex Chinese sentence
 print(detect_language("這些機構主辦的課程，多以基本電腦使用為主，例如文書處理、中文輸入、互聯網應用等"))
