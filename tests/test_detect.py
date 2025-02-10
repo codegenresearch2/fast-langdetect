@@ -22,18 +22,18 @@ def test_detect():
 
 def test_detect_totally():
     from fast_langdetect import detect_language
-    assert detect_language("hello world").lower() == "en", "ft_detect error"
-    assert detect_language("你好世界").lower() == "zh", "ft_detect error"
-    assert detect_language("こんにちは世界").lower() == "ja", "ft_detect error"
-    assert detect_language("안녕하세요 세계").lower() == "ko", "ft_detect error"
-    assert detect_language("Bonjour le monde").lower() == "fr", "ft_detect error"
-    assert detect_language("Hallo Welt").lower() == "de", "ft_detect error"
-    assert detect_language("這些機構主辦的課程，多以基本電腦使用為主，例如文書處理、中文輸入、互聯網應用等").lower() == "zh", "ft_detect error"
+    assert detect_language("hello world").upper() == "EN", "ft_detect error"
+    assert detect_language("你好世界").upper() == "ZH", "ft_detect error"
+    assert detect_language("こんにちは世界").upper() == "JA", "ft_detect error"
+    assert detect_language("안녕하세요 세계").upper() == "KO", "ft_detect error"
+    assert detect_language("Bonjour le monde").upper() == "FR", "ft_detect error"
+    assert detect_language("Hallo Welt").upper() == "DE", "ft_detect error"
+    assert detect_language("這些機構主辦的課程，多以基本電腦使用為主，例如文書處理、中文輸入、互聯網應用等").upper() == "ZH", "ft_detect error"
 
 # Additional test case to ensure comprehensive testing
 def test_failed_example():
     from fast_langdetect import detect_language
     try:
         detect_language("invalid input")
-    except ValueError as e:
+    except Exception as e:
         assert str(e) == "Could not detect language for input: invalid input", "ft_detect error"
