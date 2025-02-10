@@ -36,7 +36,8 @@ from fast_langdetect import detect, detect_multilingual, detect_language
 # 测试繁体，简体，日文，英文，韩文，法文，德文，西班牙文
 
 # Detect multiple languages
-print(detect_multilingual("Hello, world!你好世界!Привет, мир!", low_memory=False))
+multilingual_result = detect_multilingual("Hello, world!你好世界!Привет, мир!", low_memory=False)
+print(multilingual_result)
 # Expected output: [{'lang': 'ja', 'score': 0.32009604573249817}, {'lang': 'uk', 'score': 0.27781224250793457}, {'lang': 'zh', 'score': 0.17542070150375366}, {'lang': 'sr', 'score': 0.08751443773508072}, {'lang': 'bg', 'score': 0.05222449079155922}]
 
 # Detect specific languages
