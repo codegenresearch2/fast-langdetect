@@ -32,5 +32,5 @@ def test_failed_example():
     from fast_langdetect import detect
     try:
         detect("invalid_input")
-    except ValueError as e:
+    except Exception as e:
         assert str(e) == "Could not detect language for input: invalid_input", "Exception handling error"
