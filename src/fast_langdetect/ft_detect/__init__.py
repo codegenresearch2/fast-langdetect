@@ -3,6 +3,7 @@
 # @Author  : sudoskys
 
 import logging
+from fast_langdetect.ft_detect import detect
 
 def is_japanese(string):
     for ch in string:
@@ -17,7 +18,6 @@ def detect_language(sentence, *, low_memory: bool = True):
     :param low_memory: bool (default: True) whether to use low memory mode
     :return: ZH, EN, JA, KO, FR, DE, ES, .... (two uppercase letters)
     """
-    from fast_langdetect import detect
     lang_code = detect(sentence, low_memory=low_memory).get("lang").upper()
     if lang_code == "JA" and not is_japanese(sentence):
         lang_code = "ZH"
@@ -27,7 +27,7 @@ def detect_langs(sentence, *, low_memory: bool = True):
     """
     Deprecated: Use detect_language instead.
     """
-    logging.warning("detect_langs is deprecated. Please use detect_language instead.")
+    logging.warning("The function 'detect_langs' is deprecated. Please use 'detect_language' instead.")
     return detect_language(sentence, low_memory=low_memory)
 
 # Adding tests for language detection using a testing framework
