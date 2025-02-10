@@ -41,10 +41,7 @@ def get_model_map(low_memory=False):
         return "high_mem", FTLANG_CACHE, "lid.176.bin", "https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.bin"
 
 
-def get_model_loaded(
-        low_memory: bool = False,
-        download_proxy: str = None
-):
+def get_model_loaded(low_memory: bool = False, download_proxy: str = None):
     """
     Loads the FastText model based on the low_memory flag.
     
@@ -76,16 +73,11 @@ def get_model_loaded(
     return loaded_model
 
 
-def detect(text: str, *,
-           low_memory: bool = True,
-           model_download_proxy: str = None
-           ) -> Dict[str, Union[str, float]]:
+def detect(text: str, low_memory: bool = True, model_download_proxy: str = None) -> Dict[str, Union[str, float]]:
     """
-    Detects the language of a given single-line text using the FastText model.
+    Detects the language of a given text using the FastText model.
     
-    This function assumes that the input text is a single line and does not contain any whitespace or control characters.
-    
-    :param text: str - The single-line text to be detected.
+    :param text: str - The text to be detected.
     :param low_memory: bool - If True, uses the model optimized for low memory usage.
     :param model_download_proxy: str - Optional proxy for downloading the model.
     :return: Dict[str, Union[str, float]] - A dictionary containing the detected language and its confidence score.
@@ -110,13 +102,7 @@ def detect(text: str, *,
     }
 
 
-def detect_multilingual(text: str, *,
-                        low_memory: bool = True,
-                        model_download_proxy: str = None,
-                        k: int = 5,
-                        threshold: float = 0.0,
-                        on_unicode_error: str = "strict"
-                        ) -> List[dict]:
+def detect_multilingual(text: str, low_memory: bool = True, model_download_proxy: str = None, k: int = 5, threshold: float = 0.0, on_unicode_error: str = "strict") -> List[dict]:
     """
     Detects the languages of a given text using the FastText model.
     
