@@ -11,6 +11,7 @@ def test_muti_detect():
 def test_detect():
     """Test the detect function with sentences in English, Chinese, Japanese, and Korean."""
     from fast_langdetect.ft_detect import detect
+    assert isinstance("hello world", str), "Expected string input"
     assert detect("hello world")["lang"] == "en", "ft_detect error"
     assert detect("你好世界")["lang"] == "zh", "ft_detect error"
     assert detect("こんにちは世界")["lang"] == "ja", "ft_detect error"
