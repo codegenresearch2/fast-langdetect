@@ -3,12 +3,8 @@
 # @Author  : sudoskys
 # @File    : __init__.py
 
-import logging
 from .infer import detect
 from .infer import detect_multilingual  # noqa: F401
-
-# Configure logging
-logging.basicConfig(level=logging.INFO)
 
 def is_japanese(string):
     for ch in string:
@@ -36,5 +32,6 @@ def detect_langs(sentence, *, low_memory: bool = True):
     :param low_memory: bool (default: True) whether to use low memory mode
     :return: ZH, EN, JA, KO, FR, DE, ES, .... (two uppercase letters)
     """
-    logging.warning("The function `detect_langs` is deprecated. Please use `detect_language` instead.")
+    import warnings
+    warnings.warn("The function `detect_langs` is deprecated. Please use `detect_language` instead.", DeprecationWarning)
     return detect_language(sentence, low_memory=low_memory)
