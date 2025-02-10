@@ -3,16 +3,15 @@
 # @Author  : sudoskys
 # @File    : __init__.py
 
+import logging
 from .infer import detect
 from .infer import detect_multilingual  # noqa: F401
-
 
 def is_japanese(string):
     for ch in string:
         if 0x3040 < ord(ch) < 0x30FF:
             return True
     return False
-
 
 def detect_language(sentence, *, low_memory: bool = True):
     """
@@ -27,12 +26,13 @@ def detect_language(sentence, *, low_memory: bool = True):
         lang_code = "ZH"
     return lang_code
 
-
-def detect_all_languages(sentence, *, low_memory: bool = True):
+def detect_langs(sentence, *, low_memory: bool = True):
     """
-    Detect all possible languages
+    Deprecated: This function is deprecated. Please use detect_language instead.
+    Detect language
     :param sentence: str sentence
     :param low_memory: bool (default: True) whether to use low memory mode
-    :return: list of dicts with lang and score
+    :return: str language code (two uppercase letters)
     """
-    return detect_multilingual(sentence, low_memory=low_memory)
+    logging.warning("Function 'detect_langs' is deprecated. Please use 'detect_language' instead.")
+    return detect_language(sentence, low_memory=low_memory)
