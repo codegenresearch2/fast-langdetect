@@ -5,10 +5,10 @@
 # @Software: PyCharm
 
 import warnings
-from fast_langdetect import detect, detect_language, detect_multilingual
+from fast_langdetect import detect_language, detect_multilingual
 
 # Detect the language of a single sentence
-print(detect("你好世界"))
+print(detect_language("你好世界"))
 
 # Detect the language of a multilingual sentence
 print(detect_language("你好世界！Hello, world！Привет, мир！"))
