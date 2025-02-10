@@ -34,6 +34,15 @@ def test_detect_totally():
     ).upper() == "ZH", "ft_detect error"
 
 
+# Exception Handling Test
+def test_invalid_input():
+    from fast_langdetect import detect_language
+    try:
+        detect_language("")
+    except ValueError as e:
+        assert str(e) == "Input text is empty", "Expected ValueError for empty input"
+
+
 # Example usage
 if __name__ == "__main__":
     print(detect_multilingual("Hello, world!你好世界!Привет, мир!", low_memory=False))
