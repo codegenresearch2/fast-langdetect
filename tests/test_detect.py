@@ -22,13 +22,20 @@ def test_detect():
 
 def test_detect_totally():
     from fast_langdetect import detect_language
-    assert detect_language("hello world").upper() == "EN", "ft_detect error"
-    assert detect_language("你好世界").upper() == "ZH", "ft_detect error"
-    assert detect_language("こんにちは世界").upper() == "JA", "ft_detect error"
-    assert detect_language("안녕하세요 세계").upper() == "KO", "ft_detect error"
-    assert detect_language("Bonjour le monde").upper() == "FR", "ft_detect error"
-    assert detect_language("Hallo Welt").upper() == "DE", "ft_detect error"
-    assert detect_language("這些機構主辦的課程，多以基本電腦使用為主，例如文書處理、中文輸入、互聯網應用等").upper() == "ZH", "ft_detect error"
+    result = detect_language("hello world")
+    assert result == "en", "ft_detect error"
+    result = detect_language("你好世界")
+    assert result == "zh", "ft_detect error"
+    result = detect_language("こんにちは世界")
+    assert result == "ja", "ft_detect error"
+    result = detect_language("안녕하세요 세계")
+    assert result == "ko", "ft_detect error"
+    result = detect_language("Bonjour le monde")
+    assert result == "fr", "ft_detect error"
+    result = detect_language("Hallo Welt")
+    assert result == "de", "ft_detect error"
+    result = detect_language("這些機構主辦的課程，多以基本電腦使用為主，例如文書處理、中文輸入、互聯網應用等")
+    assert result == "zh", "ft_detect error"
 
 # Additional test case to ensure comprehensive testing
 def test_failed_example():
