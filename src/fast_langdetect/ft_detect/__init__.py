@@ -15,8 +15,9 @@ def is_japanese(string):
 
 def detect_language(sentence, *, low_memory: bool = True):
     """
-    Detect language
-    :param sentence: str sentence
+    Detect language of the given sentence.
+    
+    :param sentence: str sentence to detect language for
     :param low_memory: bool (default: True) whether to use low memory mode
     :return: str language code (two uppercase letters)
     Examples:
@@ -32,8 +33,9 @@ def detect_language(sentence, *, low_memory: bool = True):
 def detect_langs(sentence, *, low_memory: bool = True):
     """
     Deprecated: This function is deprecated. Please use detect_language instead.
-    Detect language
-    :param sentence: str sentence
+    Detect language of the given sentence.
+    
+    :param sentence: str sentence to detect language for
     :param low_memory: bool (default: True) whether to use low memory mode
     :return: str language code (two uppercase letters)
     """
