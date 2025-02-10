@@ -51,6 +51,7 @@ def get_model_loaded(
     :param low_memory: bool - If True, loads the model for low memory usage.
     :param download_proxy: str - Optional proxy for downloading the model.
     :return: fasttext.Model - The loaded FastText model.
+    :raises DetectError: If the model path is a directory.
     """
     mode, cache, name, url = get_model_map(low_memory)
     loaded = MODELS.get(mode, None)
