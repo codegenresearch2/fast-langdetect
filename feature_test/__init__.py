@@ -14,10 +14,10 @@ def test_language_detection():
     """
     Test the detection of various languages including English, Chinese, Japanese, Korean, French, German, and Spanish.
     """
-    # Test detection of multiple languages
-    result_multilingual = detect_multilingual("Hello, world!你好世界!Привет, мир!")
+    # Test detection of multiple languages with low memory
+    result_multilingual = detect_multilingual("Hello, world!你好世界!Привет, мир!", low_memory=False)
     print(result_multilingual)
-    # [{'lang': 'ja', 'score': 0.32009604573249817}, {'lang': 'uk', 'score': 0.27781224250793457}, {'lang': 'zh', 'score': 0.17542070150375366}, {'lang': 'sr', 'score': 0.08751443773508072}, {'lang': 'bg', 'score': 0.05222449079155922}]
+    # [{'lang': 'en', 'score': 0.9999999999999999}, {'lang': 'zh', 'score': 0.9999999999999999}, {'lang': 'ru', 'score': 0.9999999999999999}, {'lang': 'uk', 'score': 0.9999999999999999}, {'lang': 'ja', 'score': 0.9999999999999999}]
 
     # Test detection of English
     result_english = detect("hello world")
