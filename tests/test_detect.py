@@ -8,7 +8,7 @@ from fast_langdetect import detect_multilingual, detect_language
 
 def test_multilingual_detection():
     result = detect_multilingual("hello world", low_memory=True)
-    assert result[0].get("lang").lower() == "en", "Language detection error: expected 'en' but got something else"
+    assert result[0].get("lang").lower() == "en", "Language detection error"
 
 def test_language_detection():
     assert detect_language("hello world").lower() == "en", "Language detection error: expected 'en' but got something else"
