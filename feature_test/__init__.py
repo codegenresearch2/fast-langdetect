@@ -35,15 +35,13 @@ from fast_langdetect import detect, detect_multilingual, detect_language
 
 # 测试繁体，简体，日文，英文，韩文，法文，德文，西班牙文
 
-print(detect_multilingual("Hello, world!你好世界!Привет, мир!", low_memory=True))
-# [{'lang': 'ja', 'score': 0.32009604573249817}, {'lang': 'uk', 'score': 0.27781224250793457}, {'lang': 'zh', 'score': 0.17542070150375366}, {'lang': 'sr', 'score': 0.08751443773508072}, {'lang': 'bg', 'score': 0.05222449079155922}]
-print(detect("hello world", low_memory=True))
-
-print(detect_language("Привет, мир!", low_memory=True))
-print(detect_language("你好世界", low_memory=True))
-print(detect_language("こんにちは世界", low_memory=True))
-print(detect_language("안녕하세요 세계", low_memory=True))
-print(detect_language("Bonjour le monde", low_memory=True))
-print(detect_language("Hallo Welt", low_memory=True))
-print(detect_language("Hola mundo", low_memory=True))
-print(detect_language("這些機構主辦的課程，多以基本電腦使用為主，例如文書處理、中文輸入、互聯網應用等", low_memory=True))
+print(detect_multilingual("Hello, world!你好世界!Привет, мир!"))
+# Expected output: [{'lang': 'ja', 'score': 0.32009604573249817}, {'lang': 'uk', 'score': 0.27781224250793457}, {'lang': 'zh', 'score': 0.17542070150375366}, {'lang': 'sr', 'score': 0.08751443773508072}, {'lang': 'bg', 'score': 0.05222449079155922}]
+print(detect("hello world"))
+print(detect("你好世界"))
+print(detect("こんにちは世界"))
+print(detect("안녕하세요 세계"))
+print(detect("Bonjour le monde"))
+print(detect("Hallo Welt"))
+print(detect("Hola mundo"))
+print(detect("這些機構主辦的課程，多以基本電腦使用為主，例如文書處理、中文輸入、互聯網應用等"))
