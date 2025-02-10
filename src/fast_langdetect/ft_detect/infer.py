@@ -24,6 +24,7 @@ except Exception:
 
 
 class DetectError(Exception):
+    """Custom exception for detect-related errors."""
     pass
 
 
@@ -80,18 +81,27 @@ def detect(text: str, *,
            model_download_proxy: str = None
            ) -> Dict[str, Union[str, float]]:
     """
-    Detects the language of a given text using the FastText model.
+    Detects the language of a given single-line text using the FastText model.
     
-    :param text: str - The text to be detected.
+    This function assumes that the input text is a single line and does not contain any whitespace or control characters.
+    
+    :param text: str - The single-line text to be detected.
     :param low_memory: bool - If True, uses the model optimized for low memory usage.
     :param model_download_proxy: str - Optional proxy for downloading the model.
     :return: Dict[str, Union[str, float]] - A dictionary containing the detected language and its confidence score.
-    :raises DetectError: If the input text is not a string.
+    :raises DetectError: If the input text is not a string or if the model fails to predict the language.
     """
     if not isinstance(text, str):
         raise DetectError("Input text must be a string")
+    if not text.strip():
+        raise DetectError("Input text must not be empty or contain only whitespace")
+    
     model = get_model_loaded(low_memory=low_memory, download_proxy=model_download_proxy)
-    labels, scores = model.predict(text)
+    try:
+        labels, scores = model.predict(text)
+    except Exception as e:
+        raise DetectError(f"Failed to predict language: {e}")
+    
     label = labels[0].replace("__label__", '')
     score = min(float(scores[0]), 1.0)
     return {
@@ -117,12 +127,19 @@ def detect_multilingual(text: str, *,
     :param threshold: float - Minimum confidence score for a language to be included.
     :param on_unicode_error: str - Handling strategy for Unicode errors.
     :return: List[dict] - A list of dictionaries containing the detected languages and their confidence scores.
-    :raises DetectError: If the input text is not a string.
+    :raises DetectError: If the input text is not a string or if the model fails to predict the languages.
     """
     if not isinstance(text, str):
         raise DetectError("Input text must be a string")
+    if not text.strip():
+        raise DetectError("Input text must not be empty or contain only whitespace")
+    
     model = get_model_loaded(low_memory=low_memory, download_proxy=model_download_proxy)
-    labels, scores = model.predict(text=text, k=k, threshold=threshold, on_unicode_error=on_unicode_error)
+    try:
+        labels, scores = model.predict(text=text, k=k, threshold=threshold, on_unicode_error=on_unicode_error)
+    except Exception as e:
+        raise DetectError(f"Failed to predict languages: {e}")
+    
     detect_result = []
     for label, score in zip(labels, scores):
         label = label.replace("__label__", '')
