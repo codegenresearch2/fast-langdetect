@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from .ft_detect import detect, detect_language, detect_langs, detect_multilingual
+from .ft_detect import detect, detect_language, detect_langs, detect_multilingual  # noqa: F401
 import warnings
 
 # Deprecation warning for old functions
@@ -12,7 +12,7 @@ def detect(*args, **kwargs):
 # Alias for detect_multilingual
 def detect_language(*args, **kwargs):
     results = detect_multilingual(*args, **kwargs)
-    return results[0].get("lang") if results else None
+    return results[0].get("lang").upper() if results else None
 
 # Additional language detection examples and test cases
 def test_additional_languages():
@@ -26,4 +26,4 @@ def test_additional_languages():
 def test_deprecated_functions():
     assert detect("hello world")["lang"] == "en", "ft_detect error"
     assert detect_langs("Bonjour le monde")[0].get("lang") == "fr", "ft_detect error"
-    assert detect_language("こんにちは世界") == "ja", "ft_detect error"
+    assert detect_language("こんにちは世界") == "JA", "ft_detect error"
