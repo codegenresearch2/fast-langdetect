@@ -41,7 +41,7 @@ def get_model_map(low_memory=False):
         return "high_mem", FTLANG_CACHE, "lid.176.bin", "https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.bin"
 
 
-def load_model(low_memory: bool = False, download_proxy: str = None):
+def get_model_loaded(low_memory: bool = False, download_proxy: str = None):
     """
     Loads the FastText model based on the low_memory flag.
     
@@ -73,7 +73,7 @@ def load_model(low_memory: bool = False, download_proxy: str = None):
     return loaded_model
 
 
-def detect_language(text: str, low_memory: bool = True, model_download_proxy: str = None) -> Dict[str, Union[str, float]]:
+def detect(text: str, *, low_memory: bool = True, model_download_proxy: str = None) -> Dict[str, Union[str, float]]:
     """
     Detects the language of a given text using the FastText model.
     
@@ -88,7 +88,7 @@ def detect_language(text: str, low_memory: bool = True, model_download_proxy: st
     if not text.strip():
         raise DetectError("Input text must not be empty or contain only whitespace")
     
-    model = load_model(low_memory=low_memory, download_proxy=model_download_proxy)
+    model = get_model_loaded(low_memory=low_memory, download_proxy=model_download_proxy)
     try:
         labels, scores = model.predict(text)
     except Exception as e:
@@ -102,7 +102,7 @@ def detect_language(text: str, low_memory: bool = True, model_download_proxy: st
     }
 
 
-def detect_multilingual(text: str, low_memory: bool = True, model_download_proxy: str = None, k: int = 5, threshold: float = 0.0, on_unicode_error: str = "strict") -> List[dict]:
+def detect_multilingual(text: str, *, low_memory: bool = True, model_download_proxy: str = None, k: int = 5, threshold: float = 0.0, on_unicode_error: str = "strict") -> List[dict]:
     """
     Detects the languages of a given text using the FastText model.
     
@@ -120,7 +120,7 @@ def detect_multilingual(text: str, low_memory: bool = True, model_download_proxy
     if not text.strip():
         raise DetectError("Input text must not be empty or contain only whitespace")
     
-    model = load_model(low_memory=low_memory, download_proxy=model_download_proxy)
+    model = get_model_loaded(low_memory=low_memory, download_proxy=model_download_proxy)
     try:
         labels, scores = model.predict(text=text, k=k, threshold=threshold, on_unicode_error=on_unicode_error)
     except Exception as e:
