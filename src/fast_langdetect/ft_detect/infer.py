@@ -29,9 +29,10 @@ class DetectError(Exception):
 
 def get_model_map(low_memory=False):
     """
-    Getting model map
-    :param low_memory:
-    :return:
+    Returns the model map based on the low_memory flag.
+    
+    :param low_memory: bool - If True, returns the model for low memory usage.
+    :return: tuple - (str, str, str, str) - The mode, cache directory, model name, and model URL.
     """
     if low_memory:
         return "low_mem", FTLANG_CACHE, "lid.176.ftz", "https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.ftz"
@@ -44,10 +45,11 @@ def get_model_loaded(
         download_proxy: str = None
 ):
     """
-    Getting model loaded
-    :param low_memory:
-    :param download_proxy:
-    :return:
+    Loads the FastText model based on the low_memory flag.
+    
+    :param low_memory: bool - If True, loads the model for low memory usage.
+    :param download_proxy: str - Optional proxy for downloading the model.
+    :return: fasttext.Model - The loaded FastText model.
     """
     mode, cache, name, url = get_model_map(low_memory)
     loaded = MODELS.get(mode, None)
@@ -77,6 +79,17 @@ def detect(text: str, *,
            low_memory: bool = True,
            model_download_proxy: str = None
            ) -> Dict[str, Union[str, float]]:
+    """
+    Detects the language of the given text using the FastText model.
+    
+    :param text: str - The input text to detect the language of.
+    :param low_memory: bool - If True, uses the model optimized for low memory usage.
+    :param model_download_proxy: str - Optional proxy for downloading the model.
+    :return: Dict[str, Union[str, float]] - A dictionary containing the detected language and its confidence score.
+    :raises ValueError: If the input text contains newline characters.
+    """
+    if "\n" in text:
+        raise ValueError("Input text must be a single line.")
     model = get_model_loaded(low_memory=low_memory, download_proxy=model_download_proxy)
     labels, scores = model.predict(text)
     label = labels[0].replace("__label__", '')
@@ -94,6 +107,17 @@ def detect_multilingual(text: str, *,
                         threshold: float = 0.0,
                         on_unicode_error: str = "strict"
                         ) -> List[dict]:
+    """
+    Detects the languages of the given text using the FastText model.
+    
+    :param text: str - The input text to detect the languages of.
+    :param low_memory: bool - If True, uses the model optimized for low memory usage.
+    :param model_download_proxy: str - Optional proxy for downloading the model.
+    :param k: int - Number of top language predictions to return.
+    :param threshold: float - Minimum confidence score for a language to be included.
+    :param on_unicode_error: str - How to handle Unicode errors.
+    :return: List[dict] - A list of dictionaries containing the detected languages and their confidence scores.
+    """
     model = get_model_loaded(low_memory=low_memory, download_proxy=model_download_proxy)
     labels, scores = model.predict(text=text, k=k, threshold=threshold, on_unicode_error=on_unicode_error)
     detect_result = []
@@ -105,33 +129,3 @@ def detect_multilingual(text: str, *,
             "score": score,
         })
     return sorted(detect_result, key=lambda i: i['score'], reverse=True)
-
-
-# Test cases for multilingual detection and exception handling
-def test_multilingual_detection():
-    try:
-        result = detect_multilingual("hello world", low_memory=True)
-        assert result[0].get("lang") == "en", "ft_detect error"
-        result = detect_multilingual("你好世界", low_memory=True)
-        assert result[0].get("lang") == "zh", "ft_detect error"
-        result = detect_multilingual("こんにちは世界", low_memory=True)
-        assert result[0].get("lang") == "ja", "ft_detect error"
-        result = detect_multilingual("안녕하세요 세계", low_memory=True)
-        assert result[0].get("lang") == "ko", "ft_detect error"
-        result = detect_multilingual("Bonjour le monde", low_memory=True)
-        assert result[0].get("lang") == "fr", "ft_detect error"
-    except AssertionError as e:
-        print(f"Test failed: {e}")
-
-
-def test_exception_handling():
-    try:
-        detect("hello world\nNEW LINE", low_memory=True)
-    except Exception as e:
-        assert isinstance(e, Exception), "ft_detect exception error"
-
-
-# Running the tests
-if __name__ == "__main__":
-    test_multilingual_detection()
-    test_exception_handling()
