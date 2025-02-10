@@ -24,6 +24,3 @@ print(detect_language("hello world"))
 
 # Test with Russian
 print(detect_multilingual("Привет, мир!"))
-
-
-In the revised code, I have added the missing import statement for the `detect` function. I have also replaced the `parse_text` function with `detect` to match the functionality of the gold code. I have expanded the print statements to include more diverse language inputs and added comments to enhance readability. Finally, I have included a UTF-8 encoding declaration and metadata comments for time and author.
