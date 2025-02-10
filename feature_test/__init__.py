@@ -4,7 +4,7 @@
 # @File    : __init__.py.py
 # @Software: PyCharm
 
-from fast_langdetect import detect_language, detect_multilingual
+from fast_langdetect import detect, detect_language, detect_multilingual
 
 # Testing language detection for various languages
 
@@ -20,8 +20,8 @@ print(detect_language("你好世界！Hello, world！Привет, мир！"))
 print(detect_multilingual("Hello, world!你好世界!Привет, мир!"))
 # Expected output: A list of detected languages with their probabilities
 
-# English
-print(detect_language("hello world"))
+# English using detect function
+print(detect("hello world"))
 # Expected output: 'en'
 
 # Russian
@@ -43,6 +43,10 @@ print(detect_language("Bonjour le monde"))
 # German
 print(detect_language("Hallo Welt"))
 # Expected output: 'de'
+
+# Spanish
+print(detect_language("Hola mundo"))
+# Expected output: 'es'
 
 # Complex Chinese sentence
 print(detect_language("這些機構主辦的課程，多以基本電腦使用為主，例如文書處理、中文輸入、互聯網應用等"))
