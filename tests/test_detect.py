@@ -2,15 +2,16 @@
 # @Time    : 2024/1/18 上午11:41
 # @Author  : sudoskys
 
-from fast_langdetect import detect, detect_language, detect_multilingual
-
 def test_muti_detect():
     """Test the detect_multilingual function with a simple English sentence."""
+    from fast_langdetect import detect_multilingual
     result = detect_multilingual("hello world", low_memory=True)
     assert result[0].get("lang") == "en", "ft_detect error"
 
 def test_detect():
     """Test the detect function with sentences in English, Chinese, Japanese, and Korean."""
+    from fast_langdetect import detect
+    assert isinstance("hello world", str), "Expected string input"
     assert detect("hello world")["lang"] == "en", "ft_detect error"
     assert detect("你好世界")["lang"] == "zh", "ft_detect error"
     assert detect("こんにちは世界")["lang"] == "ja", "ft_detect error"
@@ -19,6 +20,7 @@ def test_detect():
 
 def test_detect_totally():
     """Test the detect_language function with sentences in English, Chinese, Japanese, Korean, French, German, and Traditional Chinese."""
+    from fast_langdetect import detect_language
     assert detect_language("hello world") == "EN", "ft_detect error"
     assert detect_language("你好世界") == "ZH", "ft_detect error"
     assert detect_language("こんにちは世界") == "JA", "ft_detect error"
@@ -29,6 +31,7 @@ def test_detect_totally():
 
 def test_failed_example():
     """Test the behavior of the functions when an unexpected input is provided."""
+    from fast_langdetect import detect, detect_language, detect_multilingual
     try:
         detect(123)
     except TypeError as e:
