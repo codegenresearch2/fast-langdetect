@@ -27,7 +27,7 @@ def detect_langs(sentence, *, low_memory: bool = True):
     """
     Deprecated: Use detect_language instead.
     """
-    logging.warning("detect_langs is deprecated. Use detect_language instead.")
+    logging.warning("detect_langs is deprecated. Please use detect_language instead.")
     return detect_language(sentence, low_memory=low_memory)
 
 # Adding tests for language detection using a testing framework
@@ -46,5 +46,3 @@ class TestLanguageDetection(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-
-In the updated code, I have addressed the feedback provided by the oracle. I have corrected the import statements to match the gold code, added a logging statement to indicate that `detect_langs` is deprecated, implemented a `detect_langs` function that warns users to use `detect_language` instead, ensured consistent documentation, and organized the tests using the `unittest` framework for better structure and reporting.
