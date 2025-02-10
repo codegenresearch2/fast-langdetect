@@ -11,6 +11,7 @@ from fast_langdetect import detect, detect_multilingual, detect_language
 # Test detect_multilingual function with a multilingual input and low_memory parameter
 # Expected output: A list of dictionaries, each containing a language code ('lang') and a confidence score ('score')
 print(detect_multilingual("Hello, world!你好世界!Привет, мир!"))
+# Expected output: A list of dictionaries, each containing a language code ('lang') and a confidence score ('score')
 print(detect_multilingual("Hello, world!你好世界!Привет, мир!", low_memory=False))
 
 # Test detect function with English input
