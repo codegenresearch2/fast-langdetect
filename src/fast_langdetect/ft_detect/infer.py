@@ -24,6 +24,7 @@ except Exception:
 
 
 class DetectError(Exception):
+    """Custom exception for language detection errors."""
     pass
 
 
@@ -58,14 +59,14 @@ def get_model_loaded(
     model_path = os.path.join(cache, name)
     if Path(model_path).exists():
         if Path(model_path).is_dir():
-            raise Exception(f"{model_path} is a directory")
+            raise DetectError(f"{model_path} is a directory")
         try:
             loaded_model = fasttext.load_model(model_path)
             MODELS[mode] = loaded_model
         except Exception as e:
             logger.error(f"Error loading model {model_path}: {e}")
             download(url=url, folder=cache, filename=name, proxy=download_proxy)
-            raise e
+            raise DetectError(f"Failed to load model from {model_path}: {e}")
         else:
             return loaded_model
 
@@ -86,10 +87,10 @@ def detect(text: str, *,
     :param low_memory: bool - If True, uses the model optimized for low memory usage.
     :param model_download_proxy: str - Optional proxy for downloading the model.
     :return: Dict[str, Union[str, float]] - A dictionary containing the detected language and its confidence score.
-    :raises ValueError: If the input text contains newline characters.
+    :raises DetectError: If the input text contains newline characters.
     """
     if "\n" in text:
-        raise ValueError("Input text must be a single line.")
+        raise DetectError("Input text must be a single line.")
     model = get_model_loaded(low_memory=low_memory, download_proxy=model_download_proxy)
     labels, scores = model.predict(text)
     label = labels[0].replace("__label__", '')
