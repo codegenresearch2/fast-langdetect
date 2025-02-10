@@ -3,12 +3,15 @@
 # @Author  : sudoskys
 # @File    : __init__.py
 # @Software: PyCharm
-from fast_langdetect import detect_language, detect_multilingual, detect_langs
-from fast_langdetect import parse_sentence
+from fast_langdetect import detect_language, detect_multilingual
 
-print(parse_sentence("你好世界"))
-print(parse_sentence("你好世界！Hello, world！Привет, мир！"))
-print(detect_multilingual("Hello, world!你好世界!Привет, мир!"))
+# Testing language detection with multiple languages
+print(detect_language("Hello, world!"))  # Expected output: "EN"
+print(detect_language("こんにちは世界"))  # Expected output: "JA"
+print(detect_language("안녕하세요 세계"))  # Expected output: "KO"
+print(detect_language("Bonjour le monde"))  # Expected output: "FR"
+print(detect_language("Hallo Welt"))  # Expected output: "DE"
+print(detect_language("你好世界"))  # Expected output: "ZH"
 
-print(detect_language("hello world"))
-print(detect_langs("Привет, мир!"))
+# Testing detect_multilingual with multiple languages in a single string
+print(detect_multilingual("Hello, world! こんにちは世界 안녕하세요 세계 Bonjour le monde Hallo Welt 你好世界"))
