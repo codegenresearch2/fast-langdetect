@@ -14,9 +14,15 @@ print(detect_multilingual("Hello, world!你好世界!Привет, мир!"))
 # 预期输出：包含语言代码 ('lang') 和置信度分数 ('score') 的字典列表
 print(detect_multilingual("Hello, world!你好世界!Привет, мир!", low_memory=False))
 
-# 测试 detect 函数，使用英语输入
+# 测试 detect 函数，使用多种语言输入
 # 预期输出：包含语言代码 ('lang') 和置信度分数 ('score') 的字典
-print(detect("hello world"))
+print(detect("hello world"))  # 预期输出：{'lang': 'en', 'score': ...}
+print(detect("你好世界"))  # 预期输出：{'lang': 'zh', 'score': ...}
+print(detect("こんにちは世界"))  # 预期输出：{'lang': 'ja', 'score': ...}
+print(detect("안녕하세요 세계"))  # 预期输出：{'lang': 'ko', 'score': ...}
+print(detect("Bonjour le monde"))  # 预期输出：{'lang': 'fr', 'score': ...}
+print(detect("Hallo Welt"))  # 预期输出：{'lang': 'de', 'score': ...}
+print(detect("Hola mundo"))  # 预期输出：{'lang': 'es', 'score': ...}
 
 # 测试 detect_language 函数，使用各种语言输入
 # 预期输出：表示语言代码的字符串
