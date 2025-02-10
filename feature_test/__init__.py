@@ -6,48 +6,48 @@
 
 from fast_langdetect import detect, detect_language, detect_multilingual
 
-# Testing language detection for various languages
+# 测试各种语言的语言检测
 
-# Chinese
+# 中文
 print(detect_language("你好世界"))
-# Expected output: 'zh'
+# 预期输出: 'zh'
 
-# Multilingual sentence
+# 多语言句子
 print(detect_language("你好世界！Hello, world！Привет, мир！"))
-# Expected output: The language with the highest probability
+# 预期输出: 概率最高的语言
 
-# Multilingual detection
+# 多语言检测
 print(detect_multilingual("Hello, world!你好世界!Привет, мир!"))
-# Expected output: A list of detected languages with their probabilities
+# 预期输出: 检测到的语言及其概率列表
 
-# English using detect function
+# 使用detect函数检测英语
 print(detect("hello world"))
-# Expected output: 'en'
+# 预期输出: 'en'
 
-# Russian
+# 俄语
 print(detect_multilingual("Привет, мир!"))
-# Expected output: A list with 'ru' as the detected language
+# 预期输出: 包含'ru'的语言列表
 
-# Japanese
+# 日语
 print(detect_language("こんにちは世界"))
-# Expected output: 'ja'
+# 预期输出: 'ja'
 
-# Korean
+# 韩语
 print(detect_language("안녕하세요 세계"))
-# Expected output: 'ko'
+# 预期输出: 'ko'
 
-# French
+# 法语
 print(detect_language("Bonjour le monde"))
-# Expected output: 'fr'
+# 预期输出: 'fr'
 
-# German
+# 德语
 print(detect_language("Hallo Welt"))
-# Expected output: 'de'
+# 预期输出: 'de'
 
-# Spanish
+# 西班牙语
 print(detect_language("Hola mundo"))
-# Expected output: 'es'
+# 预期输出: 'es'
 
-# Complex Chinese sentence
+# 复杂的中文句子
 print(detect_language("這些機構主辦的課程，多以基本電腦使用為主，例如文書處理、中文輸入、互聯網應用等"))
-# Expected output: 'zh'
+# 预期输出: 'zh'
