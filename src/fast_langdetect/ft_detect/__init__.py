@@ -19,6 +19,9 @@ def detect_language(sentence, *, low_memory: bool = True):
     :param sentence: str sentence
     :param low_memory: bool (default: True) whether to use low memory mode
     :return: str language code (two uppercase letters)
+    Examples:
+        - "Hello, world!" might return "EN"
+        - "こんにちは世界" might return "JA"
     """
     result = detect(sentence, low_memory=low_memory)
     lang_code = result.get("lang").upper()
