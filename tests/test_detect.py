@@ -33,4 +33,5 @@ def test_failed_example():
     try:
         detect("invalid_input")
     except Exception as e:
+        assert isinstance(e, Exception), "Exception handling error"
         assert str(e) == "Could not detect language for input: invalid_input", "Exception handling error"
