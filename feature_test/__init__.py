@@ -9,6 +9,10 @@ def test_language_detection():
     result_multilingual_low_memory = detect_multilingual("Hello, world!你好世界!Привет, мир!", low_memory=True)
     print("Multilingual Detection (low memory):", result_multilingual_low_memory)
 
+    # 测试多语言检测，使用低内存模式
+    result_multilingual_no_low_memory = detect_multilingual("Hello, world!你好世界!Привет, мир!", low_memory=False)
+    print("Multilingual Detection (no low memory):", result_multilingual_no_low_memory)
+
     # 测试英语检测
     print("English Detection:", detect("hello world"))
 
