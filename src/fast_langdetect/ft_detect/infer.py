@@ -51,7 +51,7 @@ def get_model_loaded(
     :param low_memory: bool - If True, loads the model for low memory usage.
     :param download_proxy: str - Optional proxy for downloading the model.
     :return: fasttext.Model - The loaded FastText model.
-    :raises Exception: If the model path is a directory.
+    :raises Exception: If the model path is a directory or if there's an error loading the model.
     """
     mode, cache, name, url = get_model_map(low_memory)
     loaded = MODELS.get(mode, None)
@@ -84,7 +84,7 @@ def detect(text: str, *,
     """
     Detects the language of the given text using the FastText model.
     
-    :param text: str - The input text to detect the language of.
+    :param text: str - The input text to detect the language of. It is assumed to be a single line.
     :param low_memory: bool - If True, uses the model optimized for low memory usage.
     :param model_download_proxy: str - Optional proxy for downloading the model.
     :return: Dict[str, Union[str, float]] - A dictionary containing the detected language and its confidence score.
