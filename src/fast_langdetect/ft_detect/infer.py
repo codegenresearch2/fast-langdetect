@@ -77,17 +77,6 @@ def detect(text: str, *,
            low_memory: bool = True,
            model_download_proxy: str = None
            ) -> Dict[str, Union[str, float]]:
-    """
-    Detect language of text
-
-    This function assumes to be given a single line of text. We split words on whitespace (space, newline, tab, vertical tab) and the control characters carriage return, formfeed and the null character.
-
-    :param text: Text for language detection
-    :param low_memory: Whether to use low memory mode
-    :param model_download_proxy: model download proxy
-    :return: {"lang": "en", "score": 0.99}
-    :raise ValueError: predict processes one line at a time (remove \'\\n\')
-    """
     model = get_model_loaded(low_memory=low_memory, download_proxy=model_download_proxy)
     labels, scores = model.predict(text)
     label = labels[0].replace("__label__", '')
@@ -105,22 +94,6 @@ def detect_multilingual(text: str, *,
                         threshold: float = 0.0,
                         on_unicode_error: str = "strict"
                         ) -> List[dict]:
-    """
-    Given a string, get a list of labels and a list of corresponding probabilities.
-    k controls the number of returned labels. A choice of 5, will return the 5 most probable labels.
-    By default this returns only the most likely label and probability. threshold filters the returned labels by a threshold on probability. A choice of 0.5 will return labels with at least 0.5 probability.
-    k and threshold will be applied together to determine the returned labels.
-
-    NOTE:This function assumes to be given a single line of text. We split words on whitespace (space, newline, tab, vertical tab) and the control characters carriage return, formfeed and the null character.
-
-    :param text: Text for language detection
-    :param low_memory: Whether to use low memory mode
-    :param model_download_proxy: model download proxy
-    :param k: Predict top k languages
-    :param threshold: Threshold for prediction
-    :param on_unicode_error: Error handling
-    :return:
-    """
     model = get_model_loaded(low_memory=low_memory, download_proxy=model_download_proxy)
     labels, scores = model.predict(text=text, k=k, threshold=threshold, on_unicode_error=on_unicode_error)
     detect_result = []
@@ -132,3 +105,36 @@ def detect_multilingual(text: str, *,
             "score": score,
         })
     return sorted(detect_result, key=lambda i: i['score'], reverse=True)
+
+
+# 测试多语言检测，使用低内存
+def test_multilingual_detect_low_memory():
+    from fast_langdetect.ft_detect import detect_multilingual
+    result = detect_multilingual("hello world", low_memory=True)
+    assert result[0].get("lang") == "en", "ft_detect error"
+
+
+# 测试单语言检测
+def test_detect():
+    from fast_langdetect import detect
+    assert detect("hello world")["lang"] == "en", "ft_detect error"
+    assert detect("你好世界")["lang"] == "zh", "ft_detect error"
+    assert detect("こんにちは世界")["lang"] == "ja", "ft_detect error"
+    assert detect("안녕하세요 세계")["lang"] == "ko", "ft_detect error"
+    assert detect("Bonjour le monde")["lang"] == "fr", "ft_detect error"
+
+
+# 测试多语言检测，不使用低内存
+def test_multilingual_detect_high_memory():
+    from fast_langdetect.ft_detect import detect_multilingual
+    result = detect_multilingual("hello world", low_memory=False)
+    assert result[0].get("lang") == "en", "ft_detect error"
+
+
+# 测试检测异常
+def test_detect_exception():
+    from fast_langdetect import detect
+    try:
+        detect("hello world\nNEW LINE", low_memory=True)
+    except Exception as e:
+        assert isinstance(e, Exception), "ft_detect exception error"
