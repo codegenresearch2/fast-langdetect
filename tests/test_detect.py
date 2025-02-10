@@ -7,12 +7,14 @@
 from fast_langdetect import detect_language
 
 def test_language_detection():
-    assert detect_language("hello world").lower() == "en", "Language detection error: expected 'en' but got something else"
-    assert detect_language("你好世界").lower() == "zh", "Language detection error: expected 'zh' but got something else"
-    assert detect_language("こんにちは世界").lower() == "ja", "Language detection error: expected 'ja' but got something else"
-    assert detect_language("Привет, мир!").lower() == "ru", "Language detection error: expected 'ru' but got something else"
-    assert detect_language("Bonjour le monde").lower() == "fr", "Language detection error: expected 'fr' but got something else"
-    assert detect_language("Hallo Welt").lower() == "de", "Language detection error: expected 'de' but got something else"
-    assert detect_language("Hola mundo").lower() == "es", "Language detection error: expected 'es' but got something else"
-    assert detect_language("안녕하세요 세계").lower() == "ko", "Language detection error: expected 'ko' but got something else"
-    assert detect_language("這些機構主辦的課程，多以基本電腦使用為主，例如文書處理、中文輸入、互聯網應用等").lower() == "zh", "Language detection error: expected 'zh' but got something else"
+    from fast_langdetect import detect_language
+
+    assert detect_language("hello world").upper() == "EN", "Language detection error: expected 'EN' but got something else"
+    assert detect_language("你好世界").upper() == "ZH", "Language detection error: expected 'ZH' but got something else"
+    assert detect_language("こんにちは世界").upper() == "JA", "Language detection error: expected 'JA' but got something else"
+    assert detect_language("Привет, мир!").upper() == "RU", "Language detection error: expected 'RU' but got something else"
+    assert detect_language("Bonjour le monde").upper() == "FR", "Language detection error: expected 'FR' but got something else"
+    assert detect_language("Hallo Welt").upper() == "DE", "Language detection error: expected 'DE' but got something else"
+    assert detect_language("Hola mundo").upper() == "ES", "Language detection error: expected 'ES' but got something else"
+    assert detect_language("안녕하세요 세계").upper() == "KO", "Language detection error: expected 'KO' but got something else"
+    assert detect_language("這些機構主辦的課程，多以基本電腦使用為主，例如文書處理、中文輸入、互聯網應用等").upper() == "ZH", "Language detection error: expected 'ZH' but got something else"
