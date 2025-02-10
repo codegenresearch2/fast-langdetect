@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from fast_langdetect import detect, detect_multilingual, detect_language
+from .ft_detect import detect, detect_multilingual, detect_language
 
 def test_comprehensive_language_detection():
     # Test for multilingual language detection
