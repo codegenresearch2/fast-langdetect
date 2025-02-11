@@ -46,6 +46,8 @@ def get_model_loaded(low_memory=False, download_proxy=None):
     model_path = os.path.join(cache, name)
     if not Path(model_path).exists():
         download(url=url, folder=cache, filename=name, proxy=download_proxy, retry_max=3, timeout=20)
+    if Path(model_path).is_dir():
+        raise Exception(f"{model_path} is a directory")
     try:
         loaded_model = fasttext.load_model(model_path)
         MODELS[mode] = loaded_model
