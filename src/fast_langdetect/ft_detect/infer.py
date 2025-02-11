@@ -19,7 +19,7 @@ class DetectError(Exception):
     """Custom exception for language detection errors."""
     pass
 
-def get_model_map(low_memory=False) -> tuple:
+def get_model_map(low_memory=False):
     """
     Returns a tuple containing the model mode, cache directory, model name, and model URL.
 
@@ -48,7 +48,7 @@ def get_model_loaded(low_memory: bool = False, download_proxy: str = None) -> fa
     model_path = os.path.join(cache, name)
     if Path(model_path).exists():
         if Path(model_path).is_dir():
-            raise DetectError(f"{model_path} is a directory")
+            raise IsADirectoryError(f"{model_path} is a directory")
 
         try:
             loaded_model = fasttext.load_model(model_path)
