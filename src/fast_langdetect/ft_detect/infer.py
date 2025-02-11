@@ -18,31 +18,21 @@ except Exception:
 class DetectError(Exception):
     pass
 
-def get_model_path(low_memory=False) -> str:
+def get_model_info(low_memory=False) -> tuple:
     """
-    Returns the model path based on the low_memory flag.
+    Returns a tuple containing the model key, model path, and model URL based on the low_memory flag.
 
     Args:
         low_memory (bool): A boolean flag indicating whether to use the low memory model.
 
     Returns:
-        str: The model path.
+        tuple: A tuple containing the model key, model path, and model URL.
     """
+    model_key = "low_mem" if low_memory else "high_mem"
     model_name = "lid.176.ftz" if low_memory else "lid.176.bin"
-    return os.path.join(FTLANG_CACHE, model_name)
-
-def get_model_url(low_memory=False) -> str:
-    """
-    Returns the model URL based on the low_memory flag.
-
-    Args:
-        low_memory (bool): A boolean flag indicating whether to use the low memory model.
-
-    Returns:
-        str: The model URL.
-    """
-    model_name = "lid.176.ftz" if low_memory else "lid.176.bin"
-    return f"https://dl.fbaipublicfiles.com/fasttext/supervised-models/{model_name}"
+    model_path = os.path.join(FTLANG_CACHE, model_name)
+    model_url = f"https://dl.fbaipublicfiles.com/fasttext/supervised-models/{model_name}"
+    return model_key, model_path, model_url
 
 def get_model_loaded(low_memory: bool = False, download_proxy: str = None) -> fasttext.FastText._FastText:
     """
@@ -58,9 +48,7 @@ def get_model_loaded(low_memory: bool = False, download_proxy: str = None) -> fa
     Raises:
         Exception: If there's an error loading the model.
     """
-    model_path = get_model_path(low_memory)
-    model_url = get_model_url(low_memory)
-    model_key = "low_mem" if low_memory else "high_mem"
+    model_key, model_path, model_url = get_model_info(low_memory)
 
     loaded = MODELS.get(model_key, None)
     if loaded:
@@ -110,7 +98,7 @@ def detect(text: str, *, low_memory: bool = True, model_download_proxy: str = No
         labels, scores = model.predict(text)
         label = labels[0].replace("__label__", '')
         score = min(float(scores[0]), 1.0)
-        return {"lang": label, "score": score}
+        return {"language": label, "score": score}
     except Exception as e:
         raise DetectError("Error in detect function") from e
 
@@ -139,7 +127,7 @@ def detect_multilingual(text: str, *, low_memory: bool = True, model_download_pr
         for label, score in zip(labels, scores):
             label = label.replace("__label__", '')
             score = min(float(score), 1.0)
-            detect_result.append({"lang": label, "score": score})
+            detect_result.append({"language": label, "score": score})
         return sorted(detect_result, key=lambda i: i['score'], reverse=True)
     except Exception as e:
         raise DetectError("Error in detect_multilingual function") from e
