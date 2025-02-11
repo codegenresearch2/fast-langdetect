@@ -4,7 +4,7 @@
 # @File    : test_detect.py
 # @Software: PyCharm
 
-def test_multi_detect():
+def test_muti_detect():
     from fast_langdetect.ft_detect import detect_multilingual
     result = detect_multilingual("hello world", low_memory=True)
     assert result[0].get("lang") == "en", "ft_detect error"
@@ -26,3 +26,10 @@ def test_detect_totally():
     assert detect_language("Bonjour le monde") == "FR", "ft_detect error"
     assert detect_language("Hallo Welt") == "DE", "ft_detect error"
     assert detect_language("這些機構主辦的課程，多以基本電腦使用為主，例如文書處理、中文輸入、互聯網應用等") == "ZH", "ft_detect error"
+
+def test_failed_example():
+    from fast_langdetect import detect
+    try:
+        detect("invalid input")
+    except Exception as e:
+        assert str(e) == "Could not detect language", "Error handling error"
