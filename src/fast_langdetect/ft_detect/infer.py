@@ -85,7 +85,13 @@ def detect(text: str, *, low_memory: bool = True, model_download_proxy: str = No
 
     Raises:
         DetectError: If there's an error in the detect function.
+        ValueError: If the input text is empty or contains more than one line.
     """
+    if not text.strip():
+        raise ValueError("Input text cannot be empty")
+    if '\n' in text:
+        raise ValueError("Input text should contain only one line")
+
     try:
         model = get_model_loaded(low_memory=low_memory, download_proxy=model_download_proxy)
         labels, scores = model.predict(text)
