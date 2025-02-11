@@ -46,19 +46,6 @@ def test_failed_example():
     from fast_langdetect import detect
     try:
         detect(123)
-    except TypeError as e:
+    except Exception as e:
+        assert isinstance(e, TypeError), "ft_detect error: Incorrect exception type raised"
         assert str(e) == "Input must be a string", "ft_detect error: Incorrect error message for invalid input"
-
-I have addressed the feedback received and made the necessary changes to the code. Here's the updated code:
-
-1. **Function Naming**: The function name "test_multi_detect" has been corrected to "test_muti_detect" to match the gold code.
-
-2. **Error Messages**: The error messages in the assertions have been updated to provide more specific information about the expected outcomes.
-
-3. **Input Variations**: The input string in the `test_muti_detect` function has been updated to match the example in the gold code.
-
-4. **Exception Handling**: In the `test_failed_example` function, the exception handling has been updated to catch a `TypeError` and check for the specific error message "Input must be a string".
-
-5. **Code Formatting**: The code has been formatted to ensure cleanliness and consistency with the gold code.
-
-These changes should address the feedback received and improve the alignment of the code with the gold standard.
