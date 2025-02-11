@@ -19,15 +19,6 @@ def detect_language(sentence, *, low_memory: bool = True):
     :param sentence: str sentence
     :param low_memory: bool (default: True) whether to use low memory mode
     :return: str language code (two uppercase letters)
-    Examples:
-        - "ZH" for Chinese
-        - "EN" for English
-        - "JA" for Japanese
-        - "KO" for Korean
-        - "FR" for French
-        - "DE" for German
-        - "ES" for Spanish
-        and so on.
     """
     result = detect(sentence, low_memory=low_memory)
     lang_code = result.get("lang").upper()
@@ -38,10 +29,8 @@ def detect_language(sentence, *, low_memory: bool = True):
 def detect_langs(sentence, *, low_memory: bool = True):
     """
     Deprecated: This function is deprecated. Please use detect_language instead.
-    Detect language
     :param sentence: str sentence
     :param low_memory: bool (default: True) whether to use low memory mode
-    :return: str language code (two uppercase letters)
     """
     logging.warning("Function 'detect_langs' is deprecated. Please use 'detect_language' instead.")
     return detect_language(sentence, low_memory=low_memory)
