@@ -16,48 +16,124 @@ except Exception:
     pass
 
 class DetectError(Exception):
+    """Custom exception for language detection errors."""
     pass
 
-def get_model_map(low_memory=False):
+def get_model_map(low_memory=False) -> tuple:
+    """
+    Get the model map based on the memory usage preference.
+
+    Parameters:
+    - low_memory (bool): Flag indicating whether to use low memory mode.
+
+    Returns:
+    - tuple: A tuple containing the model mode, cache directory, model name, and model URL.
+    """
     if low_memory:
         return "low_mem", FTLANG_CACHE, "lid.176.ftz", "https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.ftz"
     else:
         return "high_mem", FTLANG_CACHE, "lid.176.bin", "https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.bin"
 
-def get_model_loaded(low_memory: bool = False, download_proxy: str = None):
+def get_model_loaded(
+        low_memory: bool = False,
+        download_proxy: str = None
+) -> fasttext.FastText._FastText:
+    """
+    Load the language detection model based on the memory usage preference.
+
+    Parameters:
+    - low_memory (bool): Flag indicating whether to use low memory mode.
+    - download_proxy (str): Proxy to use for downloading the model if not already present.
+
+    Returns:
+    - fasttext.FastText._FastText: The loaded language detection model.
+
+    Raises:
+    - DetectError: If the model path is a directory or if there is an error loading the model.
+    """
     mode, cache, name, url = get_model_map(low_memory)
     loaded = MODELS.get(mode, None)
     if loaded:
         return loaded
+
     model_path = os.path.join(cache, name)
     if Path(model_path).exists():
         if Path(model_path).is_dir():
-            raise DetectError(f"{model_path} is a directory")
+            raise DetectError(f"Model path '{model_path}' is a directory.")
+
         try:
             loaded_model = fasttext.load_model(model_path)
             MODELS[mode] = loaded_model
         except Exception as e:
-            logger.error(f"Error loading model {model_path}: {e}")
+            logger.error(f"Error loading model from '{model_path}': {e}")
             download(url=url, folder=cache, filename=name, proxy=download_proxy)
             raise DetectError(f"Failed to load model: {e}")
         else:
             return loaded_model
+
     download(url=url, folder=cache, filename=name, proxy=download_proxy, retry_max=3, timeout=20)
     loaded_model = fasttext.load_model(model_path)
     MODELS[mode] = loaded_model
     return loaded_model
 
-def detect(text: str, *, low_memory: bool = True, model_download_proxy: str = None) -> Dict[str, Union[str, float]]:
+def detect(
+        text: str,
+        *,
+        low_memory: bool = True,
+        model_download_proxy: str = None
+) -> Dict[str, Union[str, float]]:
+    """
+    Detect the language of a given text using the language detection model.
+
+    Parameters:
+    - text (str): The input text for language detection.
+    - low_memory (bool): Flag indicating whether to use low memory mode.
+    - model_download_proxy (str): Proxy to use for downloading the model if not already present.
+
+    Returns:
+    - Dict[str, Union[str, float]]: A dictionary containing the detected language and its confidence score.
+
+    Raises:
+    - DetectError: If there is an error during language detection.
+    """
     try:
         model = get_model_loaded(low_memory=low_memory, download_proxy=model_download_proxy)
         labels, scores = model.predict(text)
         label = labels[0].replace("__label__", '')
         score = min(float(scores[0]), 1.0)
-        return {"lang": label, "score": score}
+        return {
+            "lang": label,
+            "score": score,
+        }
     except Exception as e:
         raise DetectError(f"Language detection failed: {e}")
 
-def detect_multilingual(text: str, *, low_memory: bool = True, model_download_proxy: str = None, k: int = 5, threshold: float = 0.0, on_unicode_error: str = "strict") -> List[dict]:
+def detect_multilingual(
+        text: str,
+        *,
+        low_memory: bool = True,
+        model_download_proxy: str = None,
+        k: int = 5,
+        threshold: float = 0.0,
+        on_unicode_error: str = "strict"
+) -> List[dict]:
+    """
+    Detect multiple languages in a given text using the language detection model.
+
+    Parameters:
+    - text (str): The input text for language detection.
+    - low_memory (bool): Flag indicating whether to use low memory mode.
+    - model_download_proxy (str): Proxy to use for downloading the model if not already present.
+    - k (int): The number of top languages to return.
+    - threshold (float): The minimum confidence score for a language to be considered.
+    - on_unicode_error (str): The action to take when a Unicode error occurs.
+
+    Returns:
+    - List[dict]: A list of dictionaries containing the detected languages and their confidence scores, sorted by score in descending order.
+
+    Raises:
+    - DetectError: If there is an error during multilingual detection.
+    """
     try:
         model = get_model_loaded(low_memory=low_memory, download_proxy=model_download_proxy)
         labels, scores = model.predict(text=text, k=k, threshold=threshold, on_unicode_error=on_unicode_error)
@@ -65,22 +141,10 @@ def detect_multilingual(text: str, *, low_memory: bool = True, model_download_pr
         for label, score in zip(labels, scores):
             label = label.replace("__label__", '')
             score = min(float(score), 1.0)
-            detect_result.append({"lang": label, "score": score})
+            detect_result.append({
+                "lang": label,
+                "score": score,
+            })
         return sorted(detect_result, key=lambda i: i['score'], reverse=True)
     except Exception as e:
         raise DetectError(f"Multilingual detection failed: {e}")
-
-# Testing multilingual detection functionality
-print(detect_multilingual("Hello, world!你好世界!Привет, мир!", low_memory=False))
-print(detect_multilingual("Hello, world!你好世界!Привет, мир!"))
-
-# Testing language detection with diverse examples
-print(detect("hello world"))
-print(detect("你好世界"))
-print(detect("Привет, мир!"))
-print(detect("こんにちは世界"))
-print(detect("안녕하세요 세계"))
-print(detect("Bonjour le monde"))
-print(detect("Hallo Welt"))
-print(detect("Hola mundo"))
-print(detect("這些機構主辦的課程，多以基本電腦使用為主，例如文書處理、中文輸入、互聯網應用等"))
