@@ -3,34 +3,34 @@
 # @Author  : sudoskys
 
 """
-This module contains the rewritten code snippet that follows the provided rules and oracle feedback.
+此模块包含根据提供的规则和Oracle反馈重写的代码片段。
 """
 
 from fast_langdetect import detect, detect_multilingual, detect_language
 
-# Testing detect_multilingual function with multiple languages and low_memory set to False
-# Expected output: [{'lang': 'en', 'score': 0.9999999999999999}, {'lang': 'zh', 'score': 0.9999999999999999}, {'lang': 'ru', 'score': 0.9999999999999999}]
+# 测试detect_multilingual函数，使用多种语言和low_memory设置为False
+# 预期输出：[{'lang': 'en', 'score': 0.9999999999999999}, {'lang': 'zh', 'score': 0.9999999999999999}, {'lang': 'ru', 'score': 0.9999999999999999}]
 print(detect_multilingual("Hello, world!你好世界!Привет, мир!", low_memory=False))
 
-# Testing detect_multilingual function without low_memory parameter
-# Expected output: [{'lang': 'en', 'score': 0.9999999999999999}, {'lang': 'zh', 'score': 0.9999999999999999}, {'lang': 'ru', 'score': 0.9999999999999999}]
+# 测试detect_multilingual函数，不使用low_memory参数
+# 预期输出：[{'lang': 'en', 'score': 0.9999999999999999}, {'lang': 'zh', 'score': 0.9999999999999999}, {'lang': 'ru', 'score': 0.9999999999999999}]
 print(detect_multilingual("Hello, world!你好世界!Привет, мир!"))
 
-# Testing detect function with various languages
-print(detect("hello world"))  # English
-print(detect("你好世界"))  # Chinese
-print(detect("こんにちは世界"))  # Japanese
-print(detect("안녕하세요 세계"))  # Korean
-print(detect("Bonjour le monde"))  # French
-print(detect("Hallo Welt"))  # German
-print(detect("Hola mundo"))  # Spanish
+# 测试detect函数，使用各种语言
+print(detect("hello world"))  # 英语
+print(detect("你好世界"))  # 中文
+print(detect("こんにちは世界"))  # 日语
+print(detect("안녕하세요 세계"))  # 韩语
+print(detect("Bonjour le monde"))  # 法语
+print(detect("Hallo Welt"))  # 德语
+print(detect("Hola mundo"))  # 西班牙语
 
-# Testing detect_language function with various languages
-print(detect_language("Привет, мир!"))  # Russian
-print(detect_language("你好世界"))  # Chinese
-print(detect_language("こんにちは世界"))  # Japanese
-print(detect_language("안녕하세요 세계"))  # Korean
-print(detect_language("Bonjour le monde"))  # French
-print(detect_language("Hallo Welt"))  # German
-print(detect_language("Hola mundo"))  # Spanish
-print(detect_language("這些機構主辦的課程，多以基本電腦使用為主，例如文書處理、中文輸入、互聯網應用等"))  # Chinese
+# 测试detect_language函数，使用各种语言
+print(detect_language("Привет, мир!"))  # 俄语
+print(detect_language("你好世界"))  # 中文
+print(detect_language("こんにちは世界"))  # 日语
+print(detect_language("안녕하세요 세계"))  # 韩语
+print(detect_language("Bonjour le monde"))  # 法语
+print(detect_language("Hallo Welt"))  # 德语
+print(detect_language("Hola mundo"))  # 西班牙语
+print(detect_language("這些機構主辦的課程，多以基本電腦使用為主，例如文書處理、中文輸入、互聯網應用等"))  # 中文
