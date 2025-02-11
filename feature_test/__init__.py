@@ -3,7 +3,7 @@
 # @Author  : sudoskys
 # @File    : __init__.py
 # @Software: PyCharm
-from fast_langdetect import detect_language, detect_multilingual
+from fast_langdetect import detect, detect_language, detect_multilingual
 
 # Testing different languages
 print(detect_language("hello world"))  # English
@@ -16,4 +16,6 @@ print(detect_language("Привет, мир!"))  # Russian
 print(detect_language("Hola mundo"))  # Spanish
 
 # Detecting languages in a single call
+print(detect("hello world"))  # English
+print(detect("你好世界"))  # Chinese
 print(detect_multilingual("Hello, world!你好世界!Привет, мир!Hola mundo"))
