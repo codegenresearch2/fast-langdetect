@@ -69,6 +69,7 @@ def detect(text: str, *, low_memory: bool = True, model_download_proxy: str = No
     try:
         model = get_model_loaded(low_memory=low_memory, download_proxy=model_download_proxy)
         labels, scores = model.predict(text)
+        logger.debug(f"Model predictions: labels={labels}, scores={scores}")
         label = labels[0].replace("__label__", '')
         score = min(float(scores[0]), 1.0)
         return {"lang": label, "score": score}
@@ -92,6 +93,7 @@ def detect_multilingual(text: str, *, low_memory: bool = True, model_download_pr
     try:
         model = get_model_loaded(low_memory=low_memory, download_proxy=model_download_proxy)
         labels, scores = model.predict(text=text, k=k, threshold=threshold, on_unicode_error=on_unicode_error)
+        logger.debug(f"Model predictions: labels={labels}, scores={scores}")
         detect_result = []
         for label, score in zip(labels, scores):
             label = label.replace("__label__", '')
