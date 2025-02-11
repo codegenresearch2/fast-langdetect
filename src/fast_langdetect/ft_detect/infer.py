@@ -16,6 +16,7 @@ except Exception:
     pass
 
 class DetectError(Exception):
+    """Custom exception for language detection errors."""
     pass
 
 def get_model_map(low_memory=False) -> tuple:
