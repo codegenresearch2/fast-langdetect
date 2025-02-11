@@ -3,7 +3,7 @@
 # @Author  : sudoskys
 
 import logging
-from .ft_detect import detect
+from fast_langdetect.ft_detect import detect, detect_multilingual
 
 def is_japanese(string):
     for ch in string:
