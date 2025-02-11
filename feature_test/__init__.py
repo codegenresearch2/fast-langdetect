@@ -11,7 +11,6 @@ from fast_langdetect import detect, detect_multilingual, detect_language
 # Test the detect_multilingual function with a multilingual input
 # Expected output: [{'lang': 'en', 'score': ...}, {'lang': 'zh', 'score': ...}, {'lang': 'ru', 'score': ...}]
 print(detect_multilingual("Hello, world!你好世界!Привет, мир!", low_memory=False))
-print(detect_multilingual("Hello, world!你好世界!Привет, мир!"))  # Second call without low_memory parameter
 
 # Test the detect function with English and Chinese inputs
 print(detect("hello world"))
@@ -26,4 +25,4 @@ print(detect_language("안녕하세요 세계"))
 print(detect_language("Bonjour le monde"))
 print(detect_language("Hallo Welt"))
 print(detect_language("Hola mundo"))
-print(detect_language("這些機構主辦的課程，多以基本電腦使用為主，例如文書處理、中文輸入、互聯網應用等"))
+print(detect_language("Ces organismes organisent des cours principalement axés sur l'utilisation de base de l'ordinateur, tels que le traitement de texte, la saisie de caractères chinois et l'utilisation d'Internet."))
