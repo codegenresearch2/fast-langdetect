@@ -5,17 +5,14 @@
 from fast_langdetect import detect, detect_multilingual, detect_language
 
 # Test detect_multilingual function with a multilingual input and low_memory=False
+# Expected output: [{'lang': 'en', 'score': ...}, {'lang': 'zh', 'score': ...}, {'lang': 'ru', 'score': ...}]
 print(detect_multilingual("Hello, world!你好世界!Привет, мир!", low_memory=False))
 
 # Test detect_multilingual function with a multilingual input without low_memory parameter
+# Expected output: [{'lang': 'en', 'score': ...}, {'lang': 'zh', 'score': ...}, {'lang': 'ru', 'score': ...}]
 print(detect_multilingual("Hello, world!你好世界!Привет, мир!"))
 
-# Testing various languages: English, Chinese, Japanese, Korean, French, German, Spanish
-print(detect("hello world"))
-print(detect_language("你好世界"))
-print(detect_language("こんにちは世界"))
-print(detect_language("안녕하세요 세계"))
-print(detect_language("Bonjour le monde"))
-print(detect_language("Hallo Welt"))
-print(detect_language("Hola mundo"))
-print(detect_language("這些機構主辦的課程，多以基本電腦使用為主，例如文書處理、中文輸入、互聯網應用等"))
+# Testing various languages: English, Chinese, Russian
+print(detect("hello world"))  # Expected output: {'lang': 'en', 'score': ...}
+print(detect("你好世界"))  # Expected output: {'lang': 'zh', 'score': ...}
+print(detect_language("Привет, мир!"))  # Expected output: 'RU'
