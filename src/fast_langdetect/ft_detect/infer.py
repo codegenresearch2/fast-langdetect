@@ -41,7 +41,7 @@ def get_model_loaded(low_memory: bool = False, download_proxy: str = None) -> fa
     :raises DetectError: If there is an error loading the model.
     """
     mode, cache, name, url = get_model_map(low_memory)
-    loaded = MODELS.get(mode, None)
+    loaded = MODELS.get(mode)
     if loaded:
         return loaded
 
