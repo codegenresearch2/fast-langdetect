@@ -77,8 +77,8 @@ def detect(text: str, *, low_memory: bool = True, model_download_proxy: str = No
 
     Args:
         text (str): The text to detect the language of.
-        low_memory (bool): A boolean flag indicating whether to use the low memory model.
-        model_download_proxy (str): The proxy to use for downloading the model if it's not already cached.
+        low_memory (bool, optional): A boolean flag indicating whether to use the low memory model. Defaults to True.
+        model_download_proxy (str, optional): The proxy to use for downloading the model if it's not already cached. Defaults to None.
 
     Returns:
         Dict[str, Union[str, float]]: A dictionary containing the detected language and its score.
@@ -93,7 +93,7 @@ def detect(text: str, *, low_memory: bool = True, model_download_proxy: str = No
         score = min(float(scores[0]), 1.0)
         return {"lang": label, "score": score}
     except Exception as e:
-        raise e
+        raise DetectError("Error in detect function") from e
 
 def detect_multilingual(text: str, *, low_memory: bool = True, model_download_proxy: str = None, k: int = 5, threshold: float = 0.0, on_unicode_error: str = "strict") -> List[dict]:
     """
@@ -101,11 +101,11 @@ def detect_multilingual(text: str, *, low_memory: bool = True, model_download_pr
 
     Args:
         text (str): The text to detect the languages of.
-        low_memory (bool): A boolean flag indicating whether to use the low memory model.
-        model_download_proxy (str): The proxy to use for downloading the model if it's not already cached.
-        k (int): The number of top languages to return.
-        threshold (float): The minimum probability threshold for a language to be considered.
-        on_unicode_error (str): The error handling strategy for Unicode errors.
+        low_memory (bool, optional): A boolean flag indicating whether to use the low memory model. Defaults to True.
+        model_download_proxy (str, optional): The proxy to use for downloading the model if it's not already cached. Defaults to None.
+        k (int, optional): The number of top languages to return. Defaults to 5.
+        threshold (float, optional): The minimum probability threshold for a language to be considered. Defaults to 0.0.
+        on_unicode_error (str, optional): The error handling strategy for Unicode errors. Defaults to "strict".
 
     Returns:
         List[dict]: A list of dictionaries containing the detected languages and their scores.
@@ -123,4 +123,4 @@ def detect_multilingual(text: str, *, low_memory: bool = True, model_download_pr
             detect_result.append({"lang": label, "score": score})
         return sorted(detect_result, key=lambda i: i['score'], reverse=True)
     except Exception as e:
-        raise e
+        raise DetectError("Error in detect_multilingual function") from e
