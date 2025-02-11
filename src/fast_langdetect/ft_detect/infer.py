@@ -18,7 +18,7 @@ except Exception:
 class DetectError(Exception):
     pass
 
-def get_model_map(low_memory=True):
+def get_model_map(low_memory=False):
     """
     Returns the model map based on the memory usage preference.
 
@@ -30,7 +30,7 @@ def get_model_map(low_memory=True):
     else:
         return "high_mem", FTLANG_CACHE, "lid.176.bin", "https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.bin"
 
-def get_model_loaded(low_memory=True, download_proxy=None):
+def get_model_loaded(low_memory=False, download_proxy=None):
     """
     Loads the language detection model based on the memory usage preference.
 
@@ -52,11 +52,7 @@ def get_model_loaded(low_memory=True, download_proxy=None):
             MODELS[mode] = loaded_model
         except Exception as e:
             logger.error(f"Error loading model {model_path}: {e}")
-            download(url=url, folder=cache, filename=name, proxy=download_proxy)
-            loaded_model = fasttext.load_model(model_path)
-            MODELS[mode] = loaded_model
-        else:
-            return loaded_model
+            raise DetectError("Failed to load model")
     else:
         download(url=url, folder=cache, filename=name, proxy=download_proxy, retry_max=3, timeout=20)
         loaded_model = fasttext.load_model(model_path)
@@ -110,10 +106,13 @@ def detect_multilingual(text: str, *, low_memory: bool = True, model_download_pr
         raise DetectError("Multilingual detection failed")
 
 # Additional test cases for coverage
-assert detect("Hola, mundo!")["lang"] == "es", "ft_detect error"
-assert detect("Ciao, mondo!")["lang"] == "it", "ft_detect error"
-assert detect("Hej, världen!")["lang"] == "sv", "ft_detect error"
-assert detect("Привет, мир!")["lang"] == "ru", "ft_detect error"
-assert detect("Hallo, Welt!")["lang"] == "de", "ft_detect error"
-assert detect("Bonjour, le monde!")["lang"] == "fr", "ft_detect error"
-assert detect("Hello, world!\nNEW LINE")["lang"] == "en", "ft_detect error"
+def test_detect():
+    assert detect("Hola, mundo!")["lang"] == "es", "ft_detect error"
+    assert detect("Ciao, mondo!")["lang"] == "it", "ft_detect error"
+    assert detect("Hej, världen!")["lang"] == "sv", "ft_detect error"
+    assert detect("Привет, мир!")["lang"] == "ru", "ft_detect error"
+    assert detect("Hallo, Welt!")["lang"] == "de", "ft_detect error"
+    assert detect("Bonjour, le monde!")["lang"] == "fr", "ft_detect error"
+    assert detect("Hello, world!\nNEW LINE")["lang"] == "en", "ft_detect error"
+
+test_detect()
