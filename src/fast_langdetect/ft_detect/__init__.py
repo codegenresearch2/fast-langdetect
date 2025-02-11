@@ -3,11 +3,11 @@
 # @Author  : sudoskys
 
 import logging
-from fast_langdetect import detect, detect_multilingual
+from fast_langdetect.ft_detect import detect
 
 def is_japanese(string):
     for ch in string:
-        if 0x3040 <= ord(ch) <= 0x30FF:
+        if 0x3040 < ord(ch) < 0x30FF:
             return True
     return False
 
