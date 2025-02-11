@@ -11,13 +11,13 @@ def test_multilingual_detection():
 
 def test_language_detection():
     from fast_langdetect import detect_language
-    assert detect_language("hello world") == "en", "Language detection error"
-    assert detect_language("你好世界") == "zh", "Language detection error"
-    assert detect_language("こんにちは世界") == "ja", "Language detection error"
+    assert detect_language("hello world").lower() == "en", "Language detection error"
+    assert detect_language("你好世界").lower() == "zh", "Language detection error"
+    assert detect_language("こんにちは世界").lower() == "ja", "Language detection error"
 
 def test_enhanced_multilingual_detection():
     from fast_langdetect import detect_multilingual
     result = detect_multilingual("Hello, world!你好世界!Привет, мир!")
     expected_languages = ["en", "zh", "ru"]
-    detected_languages = [res.get("lang") for res in result]
+    detected_languages = [res.get("lang").lower() for res in result]
     assert all(lang in detected_languages for lang in expected_languages), "Enhanced multilingual detection error"
