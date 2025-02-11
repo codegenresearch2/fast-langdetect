@@ -2,6 +2,7 @@
 # @Time    : 2024/1/18 上午11:41
 # @Author  : sudoskys
 
+import logging
 from fast_langdetect import detect, detect_multilingual
 
 def is_japanese(string):
@@ -22,6 +23,13 @@ def detect_language(sentence, *, low_memory: bool = True):
         lang_code = "ZH"
     return lang_code
 
+def detect_langs(sentence, *, low_memory: bool = True):
+    """
+    Deprecated: Use detect_language instead.
+    """
+    logging.warning("detect_langs is deprecated. Use detect_language instead.")
+    return detect_language(sentence, low_memory=low_memory)
+
 # Adding tests for language detection
 def test_language_detection():
     assert detect_language("hello world") == "EN", "Language detection error"
@@ -35,6 +43,3 @@ def test_language_detection():
 
 # Call the test function
 test_language_detection()
-
-
-In the rewritten code, I have renamed the function `detect_langs` to `detect_language` for consistency. I have also added a comprehensive test function `test_language_detection` to test the language detection functionality. The test function includes tests for English, Chinese, Japanese, Korean, French, German, Spanish, and a Chinese sentence with basic computer usage examples. Finally, I have called the test function to ensure that the language detection is working as expected.
