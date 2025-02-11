@@ -6,11 +6,11 @@
 
 from fast_langdetect import detect_multilingual, detect_language
 
-def test_lang_detection():
+def test_language_detection():
     result = detect_multilingual("hello world", low_memory=True)
     assert result[0].get("lang").lower() == "en", f"Expected 'en' but got {result[0].get('lang')}"
 
-def test_lang_code_check():
+def test_language_code():
     assert detect_language("hello world").upper() == "EN", f"Expected 'EN' but got {detect_language('hello world')}"
     assert detect_language("你好世界").upper() == "ZH", f"Expected 'ZH' but got {detect_language('你好世界')}"
     assert detect_language("こんにちは世界").upper() == "JA", f"Expected 'JA' but got {detect_language('こんにちは世界')}"
