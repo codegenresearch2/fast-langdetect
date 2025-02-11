@@ -17,13 +17,6 @@ def test_comprehensive_language_detection():
     assert detect("Hola mundo")["lang"] == "es", "Language detection error"
     assert detect("這些機構主辦的課程，多以基本電腦使用為主，例如文書處理、中文輸入、互聯網應用等")["lang"] == "zh", "Language detection error"
 
-# Deprecate old functions
-import warnings
-
-def detect_langs(text):
-    warnings.warn("Function 'detect_langs' is deprecated. Use 'detect_multilingual' instead.", DeprecationWarning)
-    return detect_multilingual(text)
-
 # Initialize the functions
 if __name__ == "__main__":
     test_comprehensive_language_detection()
