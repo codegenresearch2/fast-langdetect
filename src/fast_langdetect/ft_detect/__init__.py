@@ -4,6 +4,7 @@
 # @File    : __init__.py
 
 from .infer import detect, detect_multilingual  # Ensure these imports are correct
+import logging
 
 def is_japanese(string):
     for ch in string:
@@ -31,6 +32,5 @@ def detect_langs(sentence, *, low_memory: bool = True):
     :param low_memory: bool (default: True) whether to use low memory mode
     :return: ZH, EN, JA, KO, FR, DE, ES, .... (two uppercase letters)
     """
-    import logging
     logging.warning("detect_langs is deprecated, use detect_language instead.")
     return detect_language(sentence, low_memory=low_memory)
