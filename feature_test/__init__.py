@@ -17,7 +17,7 @@ print(detect_language("Ciao mondo"))  # Italian
 print(detect_language("Hallo Welt"))  # German
 print(detect_language("Здравствуйте, мир"))  # Ukrainian
 print(detect_language("Привіт, світ!"))  # Ukrainian
-print(detect_language("你好，世界"))  # Traditional Chinese
+print(detect_language("這些機構主辦的課程，多以基本電腦使用為主，例如文書處理、中文輸入、互聯網應用等"))  # Traditional Chinese
 
 # Detecting multiple languages in a sentence
 print("\nMultilingual Detection:")
