@@ -2,22 +2,23 @@
 
 from .ft_detect import detect, detect_language, detect_langs, detect_multilingual  # noqa: F401
 
-# Additional language detection examples and test cases
+# Test cases for additional languages
 def test_additional_languages():
-    assert detect_multilingual("Hola mundo")[0].get("lang") == "es", "Error: Spanish language detection failed"
-    assert detect_multilingual("Ciao mondo")[0].get("lang") == "it", "Error: Italian language detection failed"
-    assert detect_multilingual("Hej världen")[0].get("lang") == "sv", "Error: Swedish language detection failed"
-    assert detect_multilingual("Hallo Welt")[0].get("lang") == "de", "Error: German language detection failed"
-    assert detect_multilingual("Привет, мир!")[0].get("lang") == "ru", "Error: Russian language detection failed"
+    assert detect_multilingual("Hola mundo")[0]["lang"] == "es", "Error: Spanish language detection failed"
+    assert detect_multilingual("Ciao mondo")[0]["lang"] == "it", "Error: Italian language detection failed"
+    assert detect_multilingual("Hej världen")[0]["lang"] == "sv", "Error: Swedish language detection failed"
+    assert detect_multilingual("Hallo Welt")[0]["lang"] == "de", "Error: German language detection failed"
+    assert detect_multilingual("Привет, мир!")[0]["lang"] == "ru", "Error: Russian language detection failed"
 
-# Test cases from the gold code
-def test_detect():
+# Test cases for language detection
+def test_detect_languages():
     assert detect("hello world")["lang"] == "en", "Error: English language detection failed"
     assert detect("你好世界")["lang"] == "zh", "Error: Chinese language detection failed"
     assert detect("こんにちは世界")["lang"] == "ja", "Error: Japanese language detection failed"
     assert detect("안녕하세요 세계")["lang"] == "ko", "Error: Korean language detection failed"
     assert detect("Bonjour le monde")["lang"] == "fr", "Error: French language detection failed"
 
+# Test cases for total language detection
 def test_detect_totally():
     assert detect_language("hello world") == "EN", "Error: English language detection failed"
     assert detect_language("你好世界") == "ZH", "Error: Chinese language detection failed"
