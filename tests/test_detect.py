@@ -6,21 +6,21 @@
 
 def test_single_language_detection():
     from fast_langdetect import detect_language
-    assert detect_language("hello world").lower() == "en", "Language detection error"
+    assert detect_language("hello world").upper() == "EN", "ft_detect error"
 
 def test_multilingual_detection():
     from fast_langdetect import detect_multilingual
     result = detect_multilingual("hello world", low_memory=True)
-    assert result[0].get("lang") == "en", "Multilingual detection error"
+    assert result[0].get("lang") == "en", "ft_detect error"
 
 def test_extended_language_detection():
     from fast_langdetect import detect_language
-    assert detect_language("你好世界").lower() == "zh", "Language detection error"
-    assert detect_language("こんにちは世界").lower() == "ja", "Language detection error"
-    assert detect_language("안녕하세요 세계").lower() == "ko", "Language detection error"
-    assert detect_language("Bonjour le monde").lower() == "fr", "Language detection error"
-    assert detect_language("Hallo Welt").lower() == "de", "Language detection error"
-    assert detect_language("Hola mundo").lower() == "es", "Language detection error"
+    assert detect_language("你好世界").upper() == "ZH", "ft_detect error"
+    assert detect_language("こんにちは世界").upper() == "JA", "ft_detect error"
+    assert detect_language("안녕하세요 세계").upper() == "KO", "ft_detect error"
+    assert detect_language("Bonjour le monde").upper() == "FR", "ft_detect error"
+    assert detect_language("Hallo Welt").upper() == "DE", "ft_detect error"
+    assert detect_language("Hola mundo").upper() == "ES", "ft_detect error"
 
 def test_enhanced_multilingual_detection():
     from fast_langdetect import detect_multilingual
