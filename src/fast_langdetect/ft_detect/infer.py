@@ -53,7 +53,7 @@ def get_model_loaded(low_memory=False, download_proxy=None):
         MODELS[mode] = loaded_model
     except Exception as e:
         logger.error(f"Error loading model {model_path}: {e}")
-        raise e
+        raise Exception(f"Failed to load model from {model_path}")
     return loaded_model
 
 def detect(text: str, *, low_memory: bool = False, model_download_proxy: str = None) -> Dict[str, Union[str, float]]:
@@ -67,10 +67,14 @@ def detect(text: str, *, low_memory: bool = False, model_download_proxy: str = N
     :raises Exception: If the detection fails.
     """
     model = get_model_loaded(low_memory=low_memory, download_proxy=model_download_proxy)
-    labels, scores = model.predict(text)
-    label = labels[0].replace("__label__", '')
-    score = min(float(scores[0]), 1.0)
-    return {"lang": label, "score": score}
+    try:
+        labels, scores = model.predict(text)
+        label = labels[0].replace("__label__", '')
+        score = min(float(scores[0]), 1.0)
+        return {"lang": label, "score": score}
+    except Exception as e:
+        logger.error(f"Error in detection: {e}")
+        raise Exception("Detection failed")
 
 def detect_multilingual(text: str, *, low_memory: bool = False, model_download_proxy: str = None, k: int = 5, threshold: float = 0.0, on_unicode_error: str = "strict") -> List[dict]:
     """
@@ -86,13 +90,17 @@ def detect_multilingual(text: str, *, low_memory: bool = False, model_download_p
     :raises Exception: If the multilingual detection fails.
     """
     model = get_model_loaded(low_memory=low_memory, download_proxy=model_download_proxy)
-    labels, scores = model.predict(text=text, k=k, threshold=threshold, on_unicode_error=on_unicode_error)
-    detect_result = []
-    for label, score in zip(labels, scores):
-        label = label.replace("__label__", '')
-        score = min(float(score), 1.0)
-        detect_result.append({"lang": label, "score": score})
-    return sorted(detect_result, key=lambda i: i['score'], reverse=True)
+    try:
+        labels, scores = model.predict(text=text, k=k, threshold=threshold, on_unicode_error=on_unicode_error)
+        detect_result = []
+        for label, score in zip(labels, scores):
+            label = label.replace("__label__", '')
+            score = min(float(score), 1.0)
+            detect_result.append({"lang": label, "score": score})
+        return sorted(detect_result, key=lambda i: i['score'], reverse=True)
+    except Exception as e:
+        logger.error(f"Error in multilingual detection: {e}")
+        raise Exception("Multilingual detection failed")
 
 # Additional test cases for coverage
 assert detect("Hola, mundo!")["lang"] == "es", "ft_detect error"
