@@ -44,19 +44,14 @@ def get_model_loaded(low_memory=False, download_proxy=None):
     if loaded:
         return loaded
     model_path = os.path.join(cache, name)
-    if Path(model_path).exists():
-        if Path(model_path).is_dir():
-            raise Exception(f"{model_path} is a directory")
-        try:
-            loaded_model = fasttext.load_model(model_path)
-            MODELS[mode] = loaded_model
-        except Exception as e:
-            logger.error(f"Error loading model {model_path}: {e}")
-            raise Exception("Failed to load model")
-    else:
+    if not Path(model_path).exists():
         download(url=url, folder=cache, filename=name, proxy=download_proxy, retry_max=3, timeout=20)
+    try:
         loaded_model = fasttext.load_model(model_path)
         MODELS[mode] = loaded_model
+    except Exception as e:
+        logger.error(f"Error loading model {model_path}: {e}")
+        raise Exception("Failed to load model") from e
     return loaded_model
 
 def detect(text: str, *, low_memory: bool = True, model_download_proxy: str = None) -> Dict[str, Union[str, float]]:
@@ -74,10 +69,10 @@ def detect(text: str, *, low_memory: bool = True, model_download_proxy: str = No
         labels, scores = model.predict(text)
         label = labels[0].replace("__label__", '')
         score = min(float(scores[0]), 1.0)
-        return {"language": label, "confidence": score}
+        return {"lang": label, "score": score}
     except Exception as e:
         logger.error(f"Error in detection: {e}")
-        raise DetectError("Detection failed")
+        raise DetectError("Detection failed") from e
 
 def detect_multilingual(text: str, *, low_memory: bool = True, model_download_proxy: str = None, k: int = 5, threshold: float = 0.0, on_unicode_error: str = "strict") -> List[dict]:
     """
@@ -99,20 +94,20 @@ def detect_multilingual(text: str, *, low_memory: bool = True, model_download_pr
         for label, score in zip(labels, scores):
             label = label.replace("__label__", '')
             score = min(float(score), 1.0)
-            detect_result.append({"language": label, "confidence": score})
-        return sorted(detect_result, key=lambda i: i['confidence'], reverse=True)
+            detect_result.append({"lang": label, "score": score})
+        return sorted(detect_result, key=lambda i: i['score'], reverse=True)
     except Exception as e:
         logger.error(f"Error in multilingual detection: {e}")
-        raise DetectError("Multilingual detection failed")
+        raise DetectError("Multilingual detection failed") from e
 
 # Additional test cases for coverage
 def test_detect():
-    assert detect("Hola, mundo!")["language"] == "es", "ft_detect error"
-    assert detect("Ciao, mondo!")["language"] == "it", "ft_detect error"
-    assert detect("Hej, världen!")["language"] == "sv", "ft_detect error"
-    assert detect("Привет, мир!")["language"] == "ru", "ft_detect error"
-    assert detect("Hallo, Welt!")["language"] == "de", "ft_detect error"
-    assert detect("Bonjour, le monde!")["language"] == "fr", "ft_detect error"
-    assert detect("Hello, world!\nNEW LINE")["language"] == "en", "ft_detect error"
+    assert detect("Hola, mundo!")["lang"] == "es", "ft_detect error"
+    assert detect("Ciao, mondo!")["lang"] == "it", "ft_detect error"
+    assert detect("Hej, världen!")["lang"] == "sv", "ft_detect error"
+    assert detect("Привет, мир!")["lang"] == "ru", "ft_detect error"
+    assert detect("Hallo, Welt!")["lang"] == "de", "ft_detect error"
+    assert detect("Bonjour, le monde!")["lang"] == "fr", "ft_detect error"
+    assert detect("Hello, world!\nNEW LINE")["lang"] == "en", "ft_detect error"
 
 test_detect()
