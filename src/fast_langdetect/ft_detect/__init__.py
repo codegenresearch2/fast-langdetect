@@ -4,7 +4,6 @@
 
 import logging
 import warnings
-from fast_langdetect import detect, detect_multilingual
 
 def is_japanese(string):
     for ch in string:
@@ -12,20 +11,22 @@ def is_japanese(string):
             return True
     return False
 
-def detect_language(sentence, *, low_memory=True):
+def detect_language(sentence: str, *, low_memory: bool = True) -> str:
     """
     Detect and return the language code of the given sentence.
+
     :param sentence: str sentence
     :param low_memory: bool (default: True) whether to use low memory mode
     :return: Two uppercase letters representing the language code (ZH, EN, JA, KO, FR, DE, ES, ...)
     """
+    from fast_langdetect import detect
     lang_code = detect(sentence, low_memory=low_memory).get("lang").upper()
     if lang_code == "JA" and not is_japanese(sentence):
         lang_code = "ZH"
     return lang_code
 
 # Deprecation warning for the old function
-def detect_langs(sentence, *, low_memory=True):
+def detect_langs(sentence: str, *, low_memory: bool = True) -> str:
     warnings.warn("This function is deprecated. Please use 'detect_language' instead.", DeprecationWarning)
     return detect_language(sentence, low_memory=low_memory)
 
