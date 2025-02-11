@@ -5,11 +5,9 @@
 from fast_langdetect import detect, detect_multilingual, detect_language
 
 # Testing multilingual detection with English, Chinese (Simplified and Traditional), Russian, Japanese, Korean, French, German, and Spanish
+# English, Chinese (Simplified), Chinese (Traditional), Russian, Japanese, Korean, French, German, Spanish
 print("Detect Multilingual:")
-# Testing low memory mode
-print(detect_multilingual("Hello, world!你好世界!こんにちは世界!안녕하세요 세계!Bonjour le monde!Hallo Welt!Hola mundo!Привет, мир!", low_memory=True))
-# Testing high accuracy mode
-print(detect_multilingual("Hello, world!你好世界!こんにちは世界!안녕하세요 세계!Bonjour le monde!Hallo Welt!Hola mundo!Привет, мир!", low_memory=False))
+print(detect_multilingual("Hello, world!你好世界!こんにちは世界!안녕하세요 세계!Bonjour le monde!Hallo Welt!Hola mundo!Привет, мир!"))
 
 # Testing single language detection with English, Russian, Chinese (Simplified and Traditional), Japanese, Korean, French, German, and Spanish
 print("\nDetect Language:")
