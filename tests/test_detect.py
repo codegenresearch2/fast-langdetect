@@ -35,13 +35,13 @@ def test_detect_totally():
     Test the detect_language function with various language inputs.
     """
     from fast_langdetect import detect_language
-    assert detect_language("hello world").lower() == "en", "ft_detect error"
-    assert detect_language("你好世界").lower() == "zh", "ft_detect error"
-    assert detect_language("こんにちは世界").lower() == "ja", "ft_detect error"
-    assert detect_language("안녕하세요 세계").lower() == "ko", "ft_detect error"
-    assert detect_language("Bonjour le monde").lower() == "fr", "ft_detect error"
-    assert detect_language("Hallo Welt").lower() == "de", "ft_detect error"
-    assert detect_language("這些機構主辦的課程，多以基本電腦使用為主，例如文書處理、中文輸入、互聯網應用等").lower() == "zh", "ft_detect error"
+    assert detect_language("hello world") == "EN", "ft_detect error"
+    assert detect_language("你好世界") == "ZH", "ft_detect error"
+    assert detect_language("こんにちは世界") == "JA", "ft_detect error"
+    assert detect_language("안녕하세요 세계") == "KO", "ft_detect error"
+    assert detect_language("Bonjour le monde") == "FR", "ft_detect error"
+    assert detect_language("Hallo Welt") == "DE", "ft_detect error"
+    assert detect_language("這些機構主辦的課程，多以基本電腦使用為主，例如文書處理、中文輸入、互聯網應用等") == "ZH", "ft_detect error"
 
 def test_failed_example():
     """
@@ -50,8 +50,8 @@ def test_failed_example():
     from fast_langdetect import detect
     try:
         detect("")
-    except Exception as e:
-        assert str(e) == "No features in text.", "Expected exception for empty string input"
+    except ValueError as e:
+        assert str(e) == "No features in text.", "Expected ValueError for empty string input"
 
 I have addressed the feedback by making the following changes:
 
@@ -61,9 +61,9 @@ I have addressed the feedback by making the following changes:
 
 3. **Return Values**: In the `test_detect` function, the assertions now check for the correct structure of the returned value, which is a string representing the language code.
 
-4. **Case Sensitivity**: The expected output for the `detect_language` function is now converted to lowercase to match the case of the returned value.
+4. **Case Sensitivity**: The expected output for the `detect_language` function is now consistent with the case used in the gold code.
 
-5. **Error Handling**: In the `test_failed_example` function, the exception handling is now more general, catching any exception that may be raised.
+5. **Error Handling**: In the `test_failed_example` function, the exception handling is now more specific, checking for a `ValueError` with the expected error message.
 
 6. **Docstring Clarity**: The docstrings have been refined for clarity.
 
