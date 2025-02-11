@@ -18,21 +18,40 @@ except Exception:
 class DetectError(Exception):
     pass
 
-def get_model_map(low_memory=False):
+def get_model_map(low_memory=False) -> tuple:
+    """
+    Returns a tuple containing the model mode, cache directory, model name, and model URL based on the low_memory parameter.
+
+    :param low_memory: A boolean indicating whether to use the low memory model.
+    :return: A tuple containing the model mode, cache directory, model name, and model URL.
+    """
     if low_memory:
         return "low_mem", FTLANG_CACHE, "lid.176.ftz", "https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.ftz"
     else:
         return "high_mem", FTLANG_CACHE, "lid.176.bin", "https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.bin"
 
-def get_model_loaded(low_memory: bool = False, download_proxy: str = None):
+def get_model_loaded(
+        low_memory: bool = False,
+        download_proxy: str = None
+) -> fasttext.FastText._FastText:
+    """
+    Loads the language detection model based on the low_memory parameter.
+
+    :param low_memory: A boolean indicating whether to use the low memory model.
+    :param download_proxy: A string containing the proxy URL to use for downloading the model.
+    :return: The loaded language detection model.
+    :raises DetectError: If there is an error loading the model.
+    """
     mode, cache, name, url = get_model_map(low_memory)
     loaded = MODELS.get(mode, None)
     if loaded:
         return loaded
+
     model_path = os.path.join(cache, name)
     if Path(model_path).exists():
         if Path(model_path).is_dir():
             raise DetectError(f"{model_path} is a directory")
+
         try:
             loaded_model = fasttext.load_model(model_path)
             MODELS[mode] = loaded_model
@@ -42,12 +61,27 @@ def get_model_loaded(low_memory: bool = False, download_proxy: str = None):
             raise DetectError(f"Failed to load model: {e}")
         else:
             return loaded_model
+
     download(url=url, folder=cache, filename=name, proxy=download_proxy, retry_max=3, timeout=20)
     loaded_model = fasttext.load_model(model_path)
     MODELS[mode] = loaded_model
     return loaded_model
 
-def detect(text: str, *, low_memory: bool = True, model_download_proxy: str = None) -> Dict[str, Union[str, float]]:
+def detect(
+        text: str,
+        *,
+        low_memory: bool = True,
+        model_download_proxy: str = None
+) -> Dict[str, Union[str, float]]:
+    """
+    Detects the language of the input text using the language detection model.
+
+    :param text: A string containing the text to detect the language of.
+    :param low_memory: A boolean indicating whether to use the low memory model.
+    :param model_download_proxy: A string containing the proxy URL to use for downloading the model.
+    :return: A dictionary containing the detected language and confidence score.
+    :raises DetectError: If there is an error detecting the language.
+    """
     try:
         model = get_model_loaded(low_memory=low_memory, download_proxy=model_download_proxy)
         labels, scores = model.predict(text)
@@ -57,7 +91,27 @@ def detect(text: str, *, low_memory: bool = True, model_download_proxy: str = No
     except Exception as e:
         raise DetectError(f"Language detection failed: {e}")
 
-def detect_multilingual(text: str, *, low_memory: bool = True, model_download_proxy: str = None, k: int = 5, threshold: float = 0.0, on_unicode_error: str = "strict") -> List[dict]:
+def detect_multilingual(
+        text: str,
+        *,
+        low_memory: bool = True,
+        model_download_proxy: str = None,
+        k: int = 5,
+        threshold: float = 0.0,
+        on_unicode_error: str = "strict"
+) -> List[dict]:
+    """
+    Detects the languages of the input text using the language detection model and returns the top k results.
+
+    :param text: A string containing the text to detect the languages of.
+    :param low_memory: A boolean indicating whether to use the low memory model.
+    :param model_download_proxy: A string containing the proxy URL to use for downloading the model.
+    :param k: An integer indicating the number of top results to return.
+    :param threshold: A float indicating the minimum confidence score to include a result.
+    :param on_unicode_error: A string indicating how to handle Unicode errors.
+    :return: A list of dictionaries containing the detected languages and confidence scores.
+    :raises DetectError: If there is an error detecting the languages.
+    """
     try:
         model = get_model_loaded(low_memory=low_memory, download_proxy=model_download_proxy)
         labels, scores = model.predict(text=text, k=k, threshold=threshold, on_unicode_error=on_unicode_error)
