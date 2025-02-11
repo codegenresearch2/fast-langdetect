@@ -91,7 +91,7 @@ def detect(text: str, *, low_memory: bool = True, model_download_proxy: str = No
         labels, scores = model.predict(text)
         label = labels[0].replace("__label__", '')
         score = min(float(scores[0]), 1.0)
-        return {"language": label, "score": score}
+        return {"lang": label, "score": score}
     except Exception as e:
         raise DetectError("Error in detect function") from e
 
@@ -120,7 +120,7 @@ def detect_multilingual(text: str, *, low_memory: bool = True, model_download_pr
         for label, score in zip(labels, scores):
             label = label.replace("__label__", '')
             score = min(float(score), 1.0)
-            detect_result.append({"language": label, "score": score})
+            detect_result.append({"lang": label, "score": score})
         return sorted(detect_result, key=lambda i: i['score'], reverse=True)
     except Exception as e:
         raise DetectError("Error in detect_multilingual function") from e
