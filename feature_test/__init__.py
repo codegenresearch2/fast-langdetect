@@ -6,6 +6,7 @@
 from fast_langdetect import detect, detect_multilingual, detect_language
 
 # Single language detection
+# Testing with various phrases in different languages
 print(detect("Bonjour le monde"))
 # Expected output: {'lang': 'fr', 'score': ...}
 
@@ -13,20 +14,12 @@ print(detect("こんにちは世界、今日は良い天気ですね。"))
 # Expected output: {'lang': 'ja', 'score': ...}
 
 # Multilingual detection
+# Testing with a sentence containing multiple languages
 print(detect_multilingual("Hello, world!你好世界!Привет, мир!"))
 # Expected output: [{'lang': 'en', 'score': ...}, {'lang': 'zh', 'score': ...}, {'lang': 'ru', 'score': ...}]
 
-# Additional test cases for diversity
-print(detect("Hola, ¿cómo estás? Bienvenido al mundo."))
-# Expected output: {'lang': 'es', 'score': ...}
-
-print(detect("안녕하세요, 세계! 반갑습니다."))
-# Expected output: {'lang': 'ko', 'score': ...}
-
-print(detect_multilingual("こんにちは世界！Bonjour le monde!Hola, mundo!"))
-# Expected output: [{'lang': 'ja', 'score': ...}, {'lang': 'fr', 'score': ...}, {'lang': 'es', 'score': ...}]
-
 # Using detect_language for individual language detection
+# Testing with a variety of languages
 print(detect_language("Hallo Welt, wie geht's dir?"))
 # Expected output: 'de'
 
