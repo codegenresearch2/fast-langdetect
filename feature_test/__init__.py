@@ -10,13 +10,13 @@ from fast_langdetect import detect, detect_multilingual, detect_language
 
 # Test cases for detect_multilingual function
 print("Testing detect_multilingual with mixed languages:")
-print(detect_multilingual("Hello, world! 你好世界! Привет, мир!", low_memory=True))
+print(detect_multilingual("Hello, world! 你好世界! Привет, мир!", low_memory=False))
 print(detect_multilingual("こんにちは世界", low_memory=False))
-print(detect_multilingual("안녕하세요 세계", low_memory=True))
+print(detect_multilingual("안녕하세요 세계", low_memory=False))
 print(detect_multilingual("Bonjour le monde", low_memory=False))
-print(detect_multilingual("Hallo Welt", low_memory=True))
+print(detect_multilingual("Hallo Welt", low_memory=False))
 print(detect_multilingual("Hola mundo", low_memory=False))
-print(detect_multilingual("這些機構主辦的課程，多以基本電腦使用為主，例如文書處理、中文輸入、互聯網應用等", low_memory=True))
+print(detect_multilingual("這些機構主辦的課程，多以基本電腦使用為主，例如文書處理、中文輸入、互聯網應用等", low_memory=False))
 
 # Test cases for detect function
 print("\nTesting detect function with various languages:")
