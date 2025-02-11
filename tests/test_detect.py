@@ -55,3 +55,19 @@ def test_failed_example():
         detect_multilingual(["hello", "world"])
     except TypeError as e:
         assert str(e) == "Expected a string input, but received a list instead.", "ft_detect error"
+
+# Adding type checks to the language detection functions
+def detect(text):
+    if not isinstance(text, str):
+        raise TypeError("Expected a string input, but received a {} instead.".format(type(text).__name__))
+    # Rest of the function code
+
+def detect_language(text):
+    if not isinstance(text, str):
+        raise TypeError("Expected a string input, but received a {} instead.".format(type(text).__name__))
+    # Rest of the function code
+
+def detect_multilingual(text, low_memory=False):
+    if not isinstance(text, str):
+        raise TypeError("Expected a string input, but received a {} instead.".format(type(text).__name__))
+    # Rest of the function code
