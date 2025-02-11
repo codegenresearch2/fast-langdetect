@@ -7,11 +7,11 @@ from fast_langdetect import detect, detect_multilingual, detect_language
 # Test detect_multilingual function with a multilingual input and low_memory=False
 print(detect_multilingual("Hello, world!你好世界!Привет, мир!", low_memory=False))
 
-# Test detect function with English input
-print(detect("hello world"))
+# Test detect_multilingual function with a multilingual input without low_memory parameter
+print(detect_multilingual("Hello, world!你好世界!Привет, мир!"))
 
-# Test detect_language function with various language inputs
-print(detect_language("Привет, мир!"))
+# Testing various languages: English, Chinese, Japanese, Korean, French, German, Spanish
+print(detect("hello world"))
 print(detect_language("你好世界"))
 print(detect_language("こんにちは世界"))
 print(detect_language("안녕하세요 세계"))
