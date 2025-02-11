@@ -5,6 +5,9 @@
 # @Software: PyCharm
 from fast_langdetect import detect, detect_language, detect_multilingual
 
+# Import statements should be in the same order as in the gold code
+# from fast_langdetect import detect, detect_language, detect_multilingual
+
 # Testing different languages
 print(detect_language("hello world"))  # English
 print(detect_language("你好世界"))  # Chinese
