@@ -32,10 +32,10 @@ def test_detect_totally():
     assert detect_language("這些機構主辦的課程，多以基本電腦使用為主，例如文書處理、中文輸入、互聯網應用等").upper() == "ZH", "ft_detect error"
 
 
-def test_exception_handling():
-    from fast_langdetect import detect
+def test_failed_example():
+    from fast_langdetect import detect_language
     try:
-        detect("invalid input")
+        detect_language("invalid input")
     except ValueError as e:
         assert str(e) == "Could not detect the language.", "Exception handling error"
 
