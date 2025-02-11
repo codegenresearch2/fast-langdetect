@@ -9,12 +9,12 @@ This module contains the rewritten code snippet that addresses the feedback rece
 from fast_langdetect import detect, detect_multilingual, detect_language
 
 # Testing detect_multilingual function with multiple languages and low_memory set to False
-# Expected output: [{'lang': 'en', 'score': 0.9999999999999999}, {'lang': 'zh', 'score': 0.9999999999999999}, {'lang': 'ru', 'score': 0.9999999999999999}]
-print(detect_multilingual("Hello, world! 你好世界! Привет, мир!", low_memory=False))
+# Expected output: [{'lang': 'en', 'score': 0.9999999999999999}, {'lang': 'zh', 'score': 0.9999999999999999}, {'lang': 'ja', 'score': 0.9999999999999999}]
+print(detect_multilingual("Hello, world! 你好世界! こんにちは世界!", low_memory=False))
 
 # Testing detect_multilingual function without low_memory parameter
-# Expected output: [{'lang': 'en', 'score': 0.9999999999999999}, {'lang': 'zh', 'score': 0.9999999999999999}, {'lang': 'ru', 'score': 0.9999999999999999}]
-print(detect_multilingual("Hello, world! 你好世界! Привет, мир!"))
+# Expected output: [{'lang': 'en', 'score': 0.9999999999999999}, {'lang': 'zh', 'score': 0.9999999999999999}, {'lang': 'ja', 'score': 0.9999999999999999}]
+print(detect_multilingual("Hello, world! 你好世界! こんにちは世界!"))
 
 # Testing detect function with various languages
 print(detect("hello world"))  # English
@@ -26,7 +26,7 @@ print(detect("Hallo Welt"))  # German
 print(detect("Hola mundo"))  # Spanish
 print(detect("Ciao mondo"))  # Italian
 print(detect("Olá mundo"))  # Portuguese
-print(detect("こんにちは、世界"))  # Japanese (with punctuation)
+print(detect("Привет, мир!"))  # Russian
 
 # Testing detect_language function with various languages
 print(detect_language("Привет, мир!"))  # Russian
