@@ -98,8 +98,8 @@ def detect(text: str, *,
             "lang": label,
             "score": score,
         }
-    except Exception as e:
-        raise DetectError(f"Error during detection: {e}")
+    except ValueError as ve:
+        raise DetectError(f"Error during detection: {ve}")
 
 
 def detect_multilingual(text: str, *,
