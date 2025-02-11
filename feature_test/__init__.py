@@ -11,7 +11,7 @@ print(detect("Привет, мир!"))  # Expected output: {'lang': 'ru', 'score
 
 # Testing language detection for multiple sentences
 results = detect_multilingual("Hello, world!你好世界!Привет, мир!")
-# Expected output format: [{'lang': 'en', 'score': 0.9999999999999999}, {'lang': 'zh', 'score': 0.9999999999999999}, {'lang': 'ru', 'score': 0.9999999999999999}]
+# Expected output format: [{'lang': 'en', 'score': 0.9999999999999999}, {'lang': 'zh-Hans', 'score': 0.9999999999999999}, {'lang': 'ru', 'score': 0.9999999999999999}]
 print(results)
 
 # Testing language detection for single sentences using detect_language
@@ -22,4 +22,4 @@ print(detect_language("안녕하세요 세계"))  # Expected output: 'KO'
 print(detect_language("こんにちは世界"))  # Expected output: 'JA'
 print(detect_language("Привіт, світ!"))  # Expected output: 'UK'
 print(detect_language("Здраво, свет!"))  # Expected output: 'SR'
-print(detect_language("这些机构主办的课程，多以基本电脑使用为主，例如文书处理、中文输入、互联网应用等"))  # Expected output: 'ZH'
+print(detect_language("这些机构主办的课程，多以基本电脑使用为主，例如文书处理、中文输入、互联网应用等"))  # Expected output: 'ZH-Hans'
