@@ -13,13 +13,13 @@ def test_muti_detect():
 
 def test_detect():
     result = detect("hello world")
-    assert result == "en", "ft_detect error"
+    assert result["lang"] == "en", "ft_detect error"
 
     result = detect("你好世界")
-    assert result == "zh", "ft_detect error"
+    assert result["lang"] == "zh", "ft_detect error"
 
     result = detect("こんにちは世界")
-    assert result == "ja", "ft_detect error"
+    assert result["lang"] == "ja", "ft_detect error"
 
 def test_detect_totally():
     result = detect_language("hello world")
