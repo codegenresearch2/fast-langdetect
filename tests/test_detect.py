@@ -30,6 +30,6 @@ def test_detect_totally():
 def test_failed_example():
     from fast_langdetect import detect
     try:
-        detect("invalid input")
-    except Exception as e:
+        detect("unsupported_input")
+    except ValueError as e:
         assert str(e) == "Could not detect language", "Error handling error"
