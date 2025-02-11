@@ -24,10 +24,11 @@ except Exception:
 
 
 class DetectError(Exception):
+    """Custom exception for language detection errors."""
     pass
 
 
-def get_model_map(low_memory=False):
+def get_model_map(low_memory: bool = False) -> tuple:
     """
     Returns the model map based on the low_memory flag.
     
@@ -40,10 +41,7 @@ def get_model_map(low_memory=False):
         return "high_mem", FTLANG_CACHE, "lid.176.bin", "https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.bin"
 
 
-def get_model_loaded(
-        low_memory: bool = False,
-        download_proxy: str = None
-):
+def get_model_loaded(low_memory: bool = False, download_proxy: str = None) -> fasttext.Model:
     """
     Loads the FastText model based on the low_memory flag.
     
@@ -58,14 +56,14 @@ def get_model_loaded(
     model_path = os.path.join(cache, name)
     if Path(model_path).exists():
         if Path(model_path).is_dir():
-            raise Exception(f"{model_path} is a directory")
+            raise DetectError(f"{model_path} is a directory")
         try:
             loaded_model = fasttext.load_model(model_path)
             MODELS[mode] = loaded_model
         except Exception as e:
             logger.error(f"Error loading model {model_path}: {e}")
             download(url=url, folder=cache, filename=name, proxy=download_proxy)
-            raise e
+            raise DetectError(f"Failed to load model from {model_path}: {e}")
         else:
             return loaded_model
 
@@ -75,10 +73,7 @@ def get_model_loaded(
     return loaded_model
 
 
-def detect(text: str, *,
-           low_memory: bool = True,
-           model_download_proxy: str = None
-           ) -> Dict[str, Union[str, float]]:
+def detect(text: str, low_memory: bool = True, model_download_proxy: str = None) -> Dict[str, Union[str, float]]:
     """
     Detects the language of the given text using the FastText model.
     
@@ -100,13 +95,7 @@ def detect(text: str, *,
     }
 
 
-def detect_multilingual(text: str, *,
-                        low_memory: bool = True,
-                        model_download_proxy: str = None,
-                        k: int = 5,
-                        threshold: float = 0.0,
-                        on_unicode_error: str = "strict"
-                        ) -> List[dict]:
+def detect_multilingual(text: str, low_memory: bool = True, model_download_proxy: str = None, k: int = 5, threshold: float = 0.0, on_unicode_error: str = "strict") -> List[dict]:
     """
     Detects the languages of the given text using the FastText model.
     
