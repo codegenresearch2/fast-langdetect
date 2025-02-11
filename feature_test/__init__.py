@@ -1,19 +1,23 @@
+# -*- coding: utf-8 -*-
+
+from fast_langdetect import detect, detect_language, detect_multilingual
 import warnings
 
-from fast_langdetect import detect_language, detect_multilingual
+# Detect language of a single sentence
+print(detect("你好世界"))  # Expected output: {'lang': 'zh', 'prob': 0.9999999999999999}
 
-def parse_text(text):
-    return detect_language(text)
+# Detect language of a multilingual sentence
+print(detect_language("你好世界！Hello, world！Привет, мир！"))  # Expected output: 'ZH'
 
-def detect_languages(text):
-    return detect_multilingual(text)
+# Detect languages in a multilingual sentence
+print(detect_multilingual("Hello, world!你好世界!Привет, мир!"))
+# Expected output: [{'lang': 'en', 'prob': 0.9999999999999999}, {'lang': 'zh', 'prob': 0.9999999999999999}, {'lang': 'ru', 'prob': 0.9999999999999999}]
 
-print(parse_text("你好世界"))
-print(parse_text("你好世界！Hello, world！Привет, мир！"))
-print(detect_languages("Hello, world!你好世界!Привет, мир!"))
+# Detect language of English sentence
+print(detect("hello world"))  # Expected output: {'lang': 'en', 'prob': 0.9999999999999999}
 
-warnings.warn("The 'detect' function is deprecated. Use 'parse_text' instead.", DeprecationWarning)
-print(parse_text("hello world"))
+# Detect language of Russian sentence
+print(detect("Привет, мир!"))  # Expected output: {'lang': 'ru', 'prob': 0.9999999999999999}
 
-warnings.warn("The 'detect_langs' function is deprecated. Use 'detect_languages' instead.", DeprecationWarning)
-print(detect_languages("Привет, мир!"))
+# Deprecation warning for using 'detect_langs'
+warnings.warn("The 'detect_langs' function is deprecated. Use 'detect_multilingual' instead.", DeprecationWarning)
