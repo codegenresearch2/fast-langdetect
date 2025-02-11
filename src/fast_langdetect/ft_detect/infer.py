@@ -20,7 +20,7 @@ class DetectError(Exception):
 
 def get_model_map(low_memory=False) -> tuple:
     """
-    Returns a tuple containing the model mode, cache directory, model name, and model URL based on the low_memory parameter.
+    Returns a tuple containing the model mode, cache directory, model name, and model URL.
 
     :param low_memory: A boolean indicating whether to use the low memory model.
     :return: A tuple containing the model mode, cache directory, model name, and model URL.
@@ -30,10 +30,7 @@ def get_model_map(low_memory=False) -> tuple:
     else:
         return "high_mem", FTLANG_CACHE, "lid.176.bin", "https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.bin"
 
-def get_model_loaded(
-        low_memory: bool = False,
-        download_proxy: str = None
-) -> fasttext.FastText._FastText:
+def get_model_loaded(low_memory: bool = False, download_proxy: str = None) -> fasttext.FastText._FastText:
     """
     Loads the language detection model based on the low_memory parameter.
 
@@ -67,12 +64,7 @@ def get_model_loaded(
     MODELS[mode] = loaded_model
     return loaded_model
 
-def detect(
-        text: str,
-        *,
-        low_memory: bool = True,
-        model_download_proxy: str = None
-) -> Dict[str, Union[str, float]]:
+def detect(text: str, *, low_memory: bool = True, model_download_proxy: str = None) -> Dict[str, Union[str, float]]:
     """
     Detects the language of the input text using the language detection model.
 
@@ -91,15 +83,7 @@ def detect(
     except Exception as e:
         raise DetectError(f"Language detection failed: {e}")
 
-def detect_multilingual(
-        text: str,
-        *,
-        low_memory: bool = True,
-        model_download_proxy: str = None,
-        k: int = 5,
-        threshold: float = 0.0,
-        on_unicode_error: str = "strict"
-) -> List[dict]:
+def detect_multilingual(text: str, *, low_memory: bool = True, model_download_proxy: str = None, k: int = 5, threshold: float = 0.0, on_unicode_error: str = "strict") -> List[dict]:
     """
     Detects the languages of the input text using the language detection model and returns the top k results.
 
