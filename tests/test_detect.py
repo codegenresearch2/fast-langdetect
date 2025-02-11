@@ -8,18 +8,18 @@ from fast_langdetect import detect_multilingual, detect_language
 
 def test_language_detection():
     result = detect_multilingual("hello world", low_memory=True)
-    assert result[0].get("lang").lower() == "en", f"Expected 'en' but got {result[0].get('lang')}"
+    assert result[0].get("lang").lower() == "en", "Language detection failed"
 
 def test_language_code():
-    assert detect_language("hello world").upper() == "EN", f"Expected 'EN' but got {detect_language('hello world')}"
-    assert detect_language("你好世界").upper() == "ZH", f"Expected 'ZH' but got {detect_language('你好世界')}"
-    assert detect_language("こんにちは世界").upper() == "JA", f"Expected 'JA' but got {detect_language('こんにちは世界')}"
-    assert detect_language("Привет, мир!").upper() == "RU", f"Expected 'RU' but got {detect_language('Привет, мир!')}"
-    assert detect_language("Bonjour le monde").upper() == "FR", f"Expected 'FR' but got {detect_language('Bonjour le monde')}"
-    assert detect_language("Hallo Welt").upper() == "DE", f"Expected 'DE' but got {detect_language('Hallo Welt')}"
-    assert detect_language("Hola mundo").upper() == "ES", f"Expected 'ES' but got {detect_language('Hola mundo')}"
-    assert detect_language("안녕하세요 세계").upper() == "KO", f"Expected 'KO' but got {detect_language('안녕하세요 세계')}"
+    assert detect_language("hello world").upper() == "EN", "Language code mismatch"
+    assert detect_language("你好世界").upper() == "ZH", "Language code mismatch"
+    assert detect_language("こんにちは世界").upper() == "JA", "Language code mismatch"
+    assert detect_language("Привет, мир!").upper() == "RU", "Language code mismatch"
+    assert detect_language("Bonjour le monde").upper() == "FR", "Language code mismatch"
+    assert detect_language("Hallo Welt").upper() == "DE", "Language code mismatch"
+    assert detect_language("Hola mundo").upper() == "ES", "Language code mismatch"
+    assert detect_language("안녕하세요 세계").upper() == "KO", "Language code mismatch"
 
 # Additional test case for Chinese
 def test_chinese_detection():
-    assert detect_language("這些機構主辦的課程，多以基本電腦使用為主，例如文書處理、中文輸入、互聯網應用等").upper() == "ZH", f"Expected 'ZH' but got {detect_language('這些機構主辦的課程，多以基本電腦使用為主，例如文書處理、中文輸入、互聯網應用等')}"
+    assert detect_language("這些機構主辦的課程，多以基本電腦使用為主，例如文書處理、中文輸入、互聯網應用等").upper() == "ZH", "Language code mismatch"
