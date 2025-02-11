@@ -45,20 +45,13 @@ def test_failed_example():
     from fast_langdetect import detect, detect_language, detect_multilingual
     try:
         detect(12345)
-    except Exception as e:
+    except TypeError as e:
         assert str(e) == "Expected a string input, but received an integer instead.", "ft_detect error"
     try:
         detect_language(None)
-    except Exception as e:
+    except TypeError as e:
         assert str(e) == "Expected a string input, but received a NoneType instead.", "ft_detect error"
     try:
         detect_multilingual(["hello", "world"])
-    except Exception as e:
+    except TypeError as e:
         assert str(e) == "Expected a string input, but received a list instead.", "ft_detect error"
-
-In the revised code, I have addressed the feedback by:
-
-1. Moving the import statements inside the respective test functions.
-2. Ensuring that the function naming and documentation match the style of the gold code.
-3. Adding a `test_failed_example` function to demonstrate how the language detection functions handle unexpected inputs.
-4. Correcting the syntax error in the comment.
