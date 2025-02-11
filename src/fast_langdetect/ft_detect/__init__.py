@@ -4,7 +4,7 @@
 # @File    : __init__.py
 
 import logging
-from .infer import detect, detect_multilingual
+from .infer import detect, detect_multilingual  # noqa: F401
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -17,8 +17,9 @@ def is_japanese(string):
 
 def detect_language(sentence, *, low_memory: bool = True):
     """
-    Detect language
-    :param sentence: str sentence
+    Detect language of the given sentence.
+    
+    :param sentence: str sentence to detect language for
     :param low_memory: bool (default: True) whether to use low memory mode
     :return: str language code (two uppercase letters)
     """
@@ -31,7 +32,8 @@ def detect_language(sentence, *, low_memory: bool = True):
 def detect_langs(sentence, *, low_memory: bool = True):
     """
     Deprecated function. Use detect_language instead.
-    :param sentence: str sentence
+    
+    :param sentence: str sentence to detect language for
     :param low_memory: bool (default: True) whether to use low memory mode
     :return: str language code (two uppercase letters)
     """
