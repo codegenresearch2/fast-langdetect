@@ -17,7 +17,7 @@ def is_japanese(string):
 
 def detect_language(sentence, *, low_memory: bool = True):
     """
-    Detect language of the given sentence.
+    Detects the language of the given sentence.
     
     :param sentence: str sentence to detect language for
     :param low_memory: bool (default: True) whether to use low memory mode
