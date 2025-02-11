@@ -31,7 +31,7 @@ def detect_language(sentence, *, low_memory: bool = True):
 
 def detect_langs(sentence, *, low_memory: bool = True):
     """
-    Deprecated function. Use detect_language instead.
+    Deprecated function. Use `detect_language` instead.
     
     :param sentence: str sentence to detect language for
     :param low_memory: bool (default: True) whether to use low memory mode
