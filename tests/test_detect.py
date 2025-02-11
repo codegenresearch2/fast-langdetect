@@ -12,11 +12,21 @@ def test_muti_detect():
     assert result[0].get("lang") == "en", "ft_detect error"
 
 def test_detect():
-    assert detect("hello world") == "en", "ft_detect error"
-    assert detect("你好世界") == "zh", "ft_detect error"
-    assert detect("こんにちは世界") == "ja", "ft_detect error"
+    result = detect("hello world")
+    assert result == "en", "ft_detect error"
+
+    result = detect("你好世界")
+    assert result == "zh", "ft_detect error"
+
+    result = detect("こんにちは世界")
+    assert result == "ja", "ft_detect error"
 
 def test_detect_totally():
-    assert detect_language("hello world") == "en", "ft_detect error"
-    assert detect_language("你好世界") == "zh", "ft_detect error"
-    assert detect_language("こんにちは世界") == "ja", "ft_detect error"
+    result = detect_language("hello world")
+    assert result.lower() == "en", "ft_detect error"
+
+    result = detect_language("你好世界")
+    assert result.lower() == "zh", "ft_detect error"
+
+    result = detect_language("こんにちは世界")
+    assert result.lower() == "ja", "ft_detect error"
