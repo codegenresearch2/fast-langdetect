@@ -84,14 +84,14 @@ def detect(text: str, *, low_memory: bool = True, model_download_proxy: str = No
         Dict[str, Union[str, float]]: A dictionary containing the detected language and its score.
 
     Raises:
-        Exception: If there's an error in the detect function.
+        DetectError: If there's an error in the detect function.
     """
     try:
         model = get_model_loaded(low_memory=low_memory, download_proxy=model_download_proxy)
         labels, scores = model.predict(text)
         label = labels[0].replace("__label__", '')
         score = min(float(scores[0]), 1.0)
-        return {"lang": label, "score": score}
+        return {"language": label, "score": score}
     except Exception as e:
         raise DetectError("Error in detect function") from e
 
@@ -111,7 +111,7 @@ def detect_multilingual(text: str, *, low_memory: bool = True, model_download_pr
         List[dict]: A list of dictionaries containing the detected languages and their scores.
 
     Raises:
-        Exception: If there's an error in the detect_multilingual function.
+        DetectError: If there's an error in the detect_multilingual function.
     """
     try:
         model = get_model_loaded(low_memory=low_memory, download_proxy=model_download_proxy)
@@ -120,7 +120,7 @@ def detect_multilingual(text: str, *, low_memory: bool = True, model_download_pr
         for label, score in zip(labels, scores):
             label = label.replace("__label__", '')
             score = min(float(score), 1.0)
-            detect_result.append({"lang": label, "score": score})
+            detect_result.append({"language": label, "score": score})
         return sorted(detect_result, key=lambda i: i['score'], reverse=True)
     except Exception as e:
         raise DetectError("Error in detect_multilingual function") from e
