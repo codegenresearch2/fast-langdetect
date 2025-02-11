@@ -3,7 +3,7 @@
 # @Author  : sudoskys
 
 import logging
-from fast_langdetect.ft_detect import detect
+from .ft_detect import detect
 
 def is_japanese(string):
     for ch in string:
@@ -30,7 +30,7 @@ def detect_langs(sentence, *, low_memory: bool = True):
     :param low_memory: bool (default: True) whether to use low memory mode
     :return: str, the detected language code
     """
-    logging.warning("detect_langs is deprecated. Use detect_language instead.")
+    logging.warning("The function 'detect_langs' is deprecated. Please use 'detect_language' instead.")
     return detect_language(sentence, low_memory=low_memory)
 
 # Adding tests for language detection
