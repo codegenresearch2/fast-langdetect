@@ -21,6 +21,3 @@ def test_enhanced_multilingual_detection():
     expected_languages = ["en", "zh", "ru"]
     detected_languages = [res.get("lang") for res in result]
     assert all(lang in detected_languages for lang in expected_languages), "Enhanced multilingual detection error"
-
-
-In the revised code, I have addressed the syntax error by removing the improperly formatted comment or documentation string at line 26. I have also made the suggested changes to the function naming, import statements, assertion structure, language codes, and added more test cases for enhanced multilingual detection. The documentation and comments are now concise and relevant, similar to the gold code's style.
