@@ -20,7 +20,7 @@ def detect_language(sentence, *, low_memory: bool = True):
     :return: ZH, EN, JA, KO, FR, DE, ES, .... (two uppercase letters)
     """
     result = detect(sentence, low_memory=low_memory)
-    lang_code = result.get("lang").upper()
+    lang_code = result["lang"].upper()
     if lang_code == "JA" and not is_japanese(sentence):
         lang_code = "ZH"
     return lang_code
