@@ -49,32 +49,33 @@ def load_model(low_memory: bool = False, download_proxy: str = None):
     :param download_proxy: str - Optional proxy for downloading the model.
     :return: fasttext.Model - The loaded FastText model.
     """
-    if MODELS[low_memory]:
-        return MODELS[low_memory]
+    mode, cache, name, url = get_model_map(low_memory)
+    if MODELS[mode] is not None:
+        return MODELS[mode]
 
-    model_path = os.path.join(FTLANG_CACHE, get_model_map(low_memory)[2])
+    model_path = os.path.join(cache, name)
     if Path(model_path).exists():
         if Path(model_path).is_dir():
             raise Exception(f"{model_path} is a directory")
         try:
             loaded_model = fasttext.load_model(model_path)
-            MODELS[low_memory] = loaded_model
+            MODELS[mode] = loaded_model
             return loaded_model
         except Exception as e:
             logger.error(f"Error loading model {model_path}: {e}")
             raise e
 
     try:
-        download(url=get_model_map(low_memory)[3], folder=FTLANG_CACHE, filename=get_model_map(low_memory)[2], proxy=download_proxy, retry_max=3, timeout=20)
+        download(url=url, folder=cache, filename=name, proxy=download_proxy, retry_max=3, timeout=20)
         loaded_model = fasttext.load_model(model_path)
-        MODELS[low_memory] = loaded_model
+        MODELS[mode] = loaded_model
         return loaded_model
     except Exception as e:
         logger.error(f"Error downloading or loading model {model_path}: {e}")
         raise e
 
 
-def detect(text: str, low_memory: bool = True, model_download_proxy: str = None) -> Dict[str, Union[str, float]]:
+def detect(text: str, *, low_memory: bool = True, model_download_proxy: str = None) -> Dict[str, Union[str, float]]:
     """
     Detects the language of the given text using the FastText model.
     
@@ -89,12 +90,12 @@ def detect(text: str, low_memory: bool = True, model_download_proxy: str = None)
         labels, scores = model.predict(text)
         label = labels[0].replace("__label__", '')
         score = min(float(scores[0]), 1.0)
-        return {"language": label, "confidence": score}
+        return {"lang": label, "score": score}
     except ValueError as ve:
         raise DetectError(f"Error during detection: {ve}")
 
 
-def detect_multilingual(text: str, low_memory: bool = True, model_download_proxy: str = None, k: int = 5, threshold: float = 0.0, on_unicode_error: str = "strict") -> List[dict]:
+def detect_multilingual(text: str, *, low_memory: bool = True, model_download_proxy: str = None, k: int = 5, threshold: float = 0.0, on_unicode_error: str = "strict") -> List[dict]:
     """
     Detects the languages of the given text using the FastText model for multiple languages.
     
@@ -114,7 +115,7 @@ def detect_multilingual(text: str, low_memory: bool = True, model_download_proxy
         for label, score in zip(labels, scores):
             label = label.replace("__label__", '')
             score = min(float(score), 1.0)
-            detect_result.append({"language": label, "confidence": score})
-        return sorted(detect_result, key=lambda i: i['confidence'], reverse=True)
+            detect_result.append({"lang": label, "score": score})
+        return sorted(detect_result, key=lambda i: i['score'], reverse=True)
     except Exception as e:
         raise DetectError(f"Error during multilingual detection: {e}")
