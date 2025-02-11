@@ -5,7 +5,7 @@
 import logging
 from fast_langdetect import detect, detect_multilingual
 
-def is_japanese(string: str) -> bool:
+def is_japanese(string):
     """
     Check if the given string contains Japanese characters.
 
@@ -17,7 +17,7 @@ def is_japanese(string: str) -> bool:
             return True
     return False
 
-def detect_language(sentence: str, *, low_memory: bool = True) -> str:
+def detect_language(sentence, low_memory=True):
     """
     Detect and return the language code of the given sentence.
 
@@ -30,7 +30,7 @@ def detect_language(sentence: str, *, low_memory: bool = True) -> str:
         lang_code = "ZH"
     return lang_code
 
-def detect_langs(sentence: str, *, low_memory: bool = True) -> str:
+def detect_langs(sentence, low_memory=True):
     """
     Deprecated function. Use detect_language instead.
     """
@@ -47,17 +47,3 @@ def test_language_detection():
     assert detect_language("Hallo Welt") == "DE", "Language detection error"
     assert detect_language("Hola mundo") == "ES", "Language detection error"
     assert detect_language("這些機構主辦的課程，多以基本電腦使用為主，例如文書處理、中文輸入、互聯網應用等") == "ZH", "Language detection error"
-
-I have addressed the feedback provided by the oracle. Here's the updated code:
-
-1. **Import Statements**: The import statement for `detect_multilingual` has been added to match the gold code.
-
-2. **Function Documentation**: The docstrings for the functions have been simplified and made more concise to align with the gold code's phrasing.
-
-3. **Type Annotations**: Type hints have been added to the `is_japanese`, `detect_language`, and `detect_langs` functions to improve code clarity and maintainability.
-
-4. **Logging Message**: The warning message in the `detect_langs` function has been made more concise and consistent with the gold code's phrasing.
-
-5. **Formatting**: The comments and overall structure of the code have been formatted to match the style of the gold code, including spacing and line breaks.
-
-This updated code should address the feedback provided and bring it closer to the gold standard.
