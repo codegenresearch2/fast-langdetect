@@ -2,7 +2,7 @@
 # @Time    : 2024/1/18 上午11:41
 # @Author  : sudoskys
 
-def test_muti_detect():
+def test_multi_detect():
     """
     This function tests the detect_multilingual function with a simple English sentence.
     It checks if the detected language is English.
@@ -29,13 +29,13 @@ def test_detect_totally():
     It checks if the detected language matches the expected language.
     """
     from fast_langdetect import detect_language
-    assert detect_language("hello world") == "EN", "ft_detect error"
-    assert detect_language("你好世界") == "ZH", "ft_detect error"
-    assert detect_language("こんにちは世界") == "JA", "ft_detect error"
-    assert detect_language("안녕하세요 세계") == "KO", "ft_detect error"
-    assert detect_language("Bonjour le monde") == "FR", "ft_detect error"
-    assert detect_language("Hallo Welt") == "DE", "ft_detect error"
-    assert detect_language("這些機構主辦的課程，多以基本電腦使用為主，例如文書處理、中文輸入、互聯網應用等") == "ZH", "ft_detect error"
+    assert detect_language("hello world").upper() == "EN", "ft_detect error"
+    assert detect_language("你好世界").upper() == "ZH", "ft_detect error"
+    assert detect_language("こんにちは世界").upper() == "JA", "ft_detect error"
+    assert detect_language("안녕하세요 세계").upper() == "KO", "ft_detect error"
+    assert detect_language("Bonjour le monde").upper() == "FR", "ft_detect error"
+    assert detect_language("Hallo Welt").upper() == "DE", "ft_detect error"
+    assert detect_language("這些機構主辦的課程，多以基本電腦使用為主，例如文書處理、中文輸入、互聯網應用等").upper() == "ZH", "ft_detect error"
 
 def test_failed_example():
     """
@@ -45,30 +45,30 @@ def test_failed_example():
     from fast_langdetect import detect, detect_language, detect_multilingual
     try:
         detect("")
-    except Exception:
-        assert True, "Expected exception for empty input"
+    except ValueError:
+        assert True, "Expected ValueError for empty input"
 
     try:
         detect_language("")
-    except Exception:
-        assert True, "Expected exception for empty input"
+    except ValueError:
+        assert True, "Expected ValueError for empty input"
 
     try:
         detect_multilingual("")
-    except Exception:
-        assert True, "Expected exception for empty input"
+    except ValueError:
+        assert True, "Expected ValueError for empty input"
 
     try:
         detect("\n")
-    except Exception:
-        assert True, "Expected exception for new line input"
+    except ValueError:
+        assert True, "Expected ValueError for new line input"
 
     try:
         detect_language("\n")
-    except Exception:
-        assert True, "Expected exception for new line input"
+    except ValueError:
+        assert True, "Expected ValueError for new line input"
 
     try:
         detect_multilingual("\n")
-    except Exception:
-        assert True, "Expected exception for new line input"
+    except ValueError:
+        assert True, "Expected ValueError for new line input"
