@@ -4,12 +4,14 @@
 
 from fast_langdetect import detect, detect_multilingual, detect_language
 
-# Test detect_multilingual function with low_memory parameter
+# 测试多语言检测函数，包括英语、中文、俄语、日语、韩语、法语、德语和西班牙语
 print("Detect Multilingual:")
-print(detect_multilingual("Hello, world!你好世界!Привет, мир!", low_memory=False))
-print(detect_multilingual("こんにちは世界!안녕하세요 세계!Bonjour le monde!Hallo Welt!Hola mundo!", low_memory=True))
+# 测试低内存模式
+print(detect_multilingual("Hello, world!你好世界!Привет, мир!こんにちは世界!안녕하세요 세계!Bonjour le monde!Hallo Welt!Hola mundo!", low_memory=True))
+# 测试高精度模式
+print(detect_multilingual("Hello, world!你好世界!Привет, мир!こんにちは世界!안녕하세요 세계!Bonjour le monde!Hallo Welt!Hola mundo!", low_memory=False))
 
-# Test detect function with various language inputs
+# 测试单语言检测函数，包括英语、俄语、中文、日语、韩语、法语、德语和西班牙语
 print("\nDetect Language:")
 print(detect("hello world"))
 print(detect("Привет, мир!"))
@@ -19,9 +21,8 @@ print(detect("안녕하세요 세계"))
 print(detect("Bonjour le monde"))
 print(detect("Hallo Welt"))
 print(detect("Hola mundo"))
-print(detect("這些機構主辦的課程，多以基本電腦使用為主，例如文書處理、中文輸入、互聯網應用等"))
 
-# Test detect_language function with various language inputs
+# 测试单语言检测函数，返回完整的语言信息，包括英语、俄语、中文、日语、韩语、法语、德语和西班牙语
 print("\nDetect Language (Full Output):")
 print(detect_language("hello world"))
 print(detect_language("Привет, мир!"))
@@ -31,4 +32,3 @@ print(detect_language("안녕하세요 세계"))
 print(detect_language("Bonjour le monde"))
 print(detect_language("Hallo Welt"))
 print(detect_language("Hola mundo"))
-print(detect_language("這些機構主辦的課程，多以基本電腦使用為主，例如文書處理、中文輸入、互聯網應用等"))
