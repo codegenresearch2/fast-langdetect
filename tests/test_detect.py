@@ -23,10 +23,10 @@ def test_detect():
 
 def test_detect_totally():
     result = detect_language("hello world")
-    assert result.lower() == "en", "ft_detect error"
+    assert result.upper() == "EN", "ft_detect error"
 
     result = detect_language("你好世界")
-    assert result.lower() == "zh", "ft_detect error"
+    assert result.upper() == "ZH", "ft_detect error"
 
     result = detect_language("こんにちは世界")
-    assert result.lower() == "ja", "ft_detect error"
+    assert result.upper() == "JA", "ft_detect error"
