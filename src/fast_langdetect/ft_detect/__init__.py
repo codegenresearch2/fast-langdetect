@@ -2,16 +2,18 @@
 # @Time    : 2024/1/17 下午4:00
 # @Author  : sudoskys
 # @File    : __init__.py
-from .infer import detect
-from .infer import detect_multilingual  # noqa: F401
 
+import logging
+from .infer import detect, detect_multilingual
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
 
 def is_japanese(string):
     for ch in string:
         if 0x3040 < ord(ch) < 0x30FF:
             return True
     return False
-
 
 def detect_language(sentence, *, low_memory: bool = True):
     """
@@ -26,6 +28,15 @@ def detect_language(sentence, *, low_memory: bool = True):
         lang_code = "ZH"
     return lang_code
 
+def detect_langs(sentence, *, low_memory: bool = True):
+    """
+    Deprecated function. Use detect_language instead.
+    :param sentence: str sentence
+    :param low_memory: bool (default: True) whether to use low memory mode
+    :return: str language code (two uppercase letters)
+    """
+    logging.warning("Function 'detect_langs' is deprecated. Use 'detect_language' instead.")
+    return detect_language(sentence, low_memory=low_memory)
 
 def test_all_languages():
     from fast_langdetect import detect_language
@@ -37,7 +48,6 @@ def test_all_languages():
     assert detect_language("Hallo Welt") == "DE"
     assert detect_language("Hola mundo") == "ES"
     assert detect_language("這些機構主辦的課程，多以基本電腦使用為主，例如文書處理、中文輸入、互聯網應用等") == "ZH"
-
 
 def test_multilingual_detection():
     from fast_langdetect import detect_multilingual
