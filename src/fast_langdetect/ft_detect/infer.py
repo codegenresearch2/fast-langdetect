@@ -18,20 +18,31 @@ except Exception:
 class DetectError(Exception):
     pass
 
-def get_model_map(low_memory=False) -> tuple:
+def get_model_path(low_memory=False) -> str:
     """
-    Returns a tuple containing the model type, cache directory, model name, and model URL based on the low_memory flag.
+    Returns the model path based on the low_memory flag.
 
     Args:
         low_memory (bool): A boolean flag indicating whether to use the low memory model.
 
     Returns:
-        tuple: A tuple containing the model type, cache directory, model name, and model URL.
+        str: The model path.
     """
-    if low_memory:
-        return "low_mem", FTLANG_CACHE, "lid.176.ftz", "https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.ftz"
-    else:
-        return "high_mem", FTLANG_CACHE, "lid.176.bin", "https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.bin"
+    model_name = "lid.176.ftz" if low_memory else "lid.176.bin"
+    return os.path.join(FTLANG_CACHE, model_name)
+
+def get_model_url(low_memory=False) -> str:
+    """
+    Returns the model URL based on the low_memory flag.
+
+    Args:
+        low_memory (bool): A boolean flag indicating whether to use the low memory model.
+
+    Returns:
+        str: The model URL.
+    """
+    model_name = "lid.176.ftz" if low_memory else "lid.176.bin"
+    return f"https://dl.fbaipublicfiles.com/fasttext/supervised-models/{model_name}"
 
 def get_model_loaded(low_memory: bool = False, download_proxy: str = None) -> fasttext.FastText._FastText:
     """
@@ -47,28 +58,30 @@ def get_model_loaded(low_memory: bool = False, download_proxy: str = None) -> fa
     Raises:
         Exception: If there's an error loading the model.
     """
-    mode, cache, name, url = get_model_map(low_memory)
-    loaded = MODELS.get(mode, None)
+    model_path = get_model_path(low_memory)
+    model_url = get_model_url(low_memory)
+    model_key = "low_mem" if low_memory else "high_mem"
+
+    loaded = MODELS.get(model_key, None)
     if loaded:
         return loaded
 
-    model_path = os.path.join(cache, name)
     if Path(model_path).exists():
         if Path(model_path).is_dir():
             raise Exception(f"{model_path} is a directory")
         try:
             loaded_model = fasttext.load_model(model_path)
-            MODELS[mode] = loaded_model
+            MODELS[model_key] = loaded_model
         except Exception as e:
             logger.error(f"Error loading model {model_path}: {e}")
-            download(url=url, folder=cache, filename=name, proxy=download_proxy)
+            download(url=model_url, folder=FTLANG_CACHE, filename=os.path.basename(model_path), proxy=download_proxy)
             raise e
         else:
             return loaded_model
 
-    download(url=url, folder=cache, filename=name, proxy=download_proxy, retry_max=3, timeout=20)
+    download(url=model_url, folder=FTLANG_CACHE, filename=os.path.basename(model_path), proxy=download_proxy, retry_max=3, timeout=20)
     loaded_model = fasttext.load_model(model_path)
-    MODELS[mode] = loaded_model
+    MODELS[model_key] = loaded_model
     return loaded_model
 
 def detect(text: str, *, low_memory: bool = True, model_download_proxy: str = None) -> Dict[str, Union[str, float]]:
