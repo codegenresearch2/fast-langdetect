@@ -3,15 +3,15 @@
 # @Author  : sudoskys
 
 import logging
-from fast_langdetect import detect
+from .ft_detect import detect
 
-def is_japanese(string):
+def is_japanese(string: str) -> bool:
     for ch in string:
         if 0x3040 < ord(ch) < 0x30FF:
             return True
     return False
 
-def detect_language(sentence, low_memory=True):
+def detect_language(sentence: str, *, low_memory: bool = True) -> str:
     """
     Detect language
     :param sentence: str sentence
@@ -23,11 +23,11 @@ def detect_language(sentence, low_memory=True):
         lang_code = "ZH"
     return lang_code
 
-def detect_langs(sentence, low_memory=True):
+def detect_langs(sentence: str, *, low_memory: bool = True) -> str:
     """
     Deprecated function warning
     """
-    logging.warning("This function is deprecated. Use 'detect_language' instead.")
+    logging.warning("The 'detect_langs' function is deprecated. Use 'detect_language' instead.")
     return detect_language(sentence, low_memory=low_memory)
 
 # Comprehensive language detection tests
