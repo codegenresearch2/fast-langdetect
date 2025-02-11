@@ -3,7 +3,6 @@
 # @Author  : sudoskys
 
 import logging
-from fast_langdetect import detect
 
 def is_japanese(string):
     for ch in string:
@@ -11,19 +10,20 @@ def is_japanese(string):
             return True
     return False
 
-def detect_language(sentence, low_memory=True):
+def detect_language(sentence, *, low_memory=True):
     """
     Detect language
     :param sentence: str sentence
     :param low_memory: bool (default: True) whether to use low memory mode
     :return: Two uppercase letters representing the language code (e.g., 'EN', 'ZH', 'JA', 'KO', 'FR', 'DE', 'ES', etc.)
     """
+    from fast_langdetect import detect
     lang_code = detect(sentence, low_memory=low_memory).get("lang").upper()
     if lang_code == "JA" and not is_japanese(sentence):
         lang_code = "ZH"
     return lang_code
 
-def detect_langs(sentence, low_memory=True):
+def detect_langs(sentence, *, low_memory=True):
     """
     Deprecated function warning
     """
