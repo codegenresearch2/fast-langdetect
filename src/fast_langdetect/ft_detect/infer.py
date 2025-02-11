@@ -49,7 +49,7 @@ def get_model_loaded(
     - fasttext.FastText._FastText: The loaded language detection model.
 
     Raises:
-    - DetectError: If the model path is a directory or if there is an error loading the model.
+    - Exception: If the model path is a directory or if there is an error loading the model.
     """
     mode, cache, name, url = get_model_map(low_memory)
     loaded = MODELS.get(mode, None)
@@ -59,7 +59,7 @@ def get_model_loaded(
     model_path = os.path.join(cache, name)
     if Path(model_path).exists():
         if Path(model_path).is_dir():
-            raise DetectError(f"Model path '{model_path}' is a directory.")
+            raise Exception(f"Model path '{model_path}' is a directory.")
 
         try:
             loaded_model = fasttext.load_model(model_path)
@@ -67,7 +67,7 @@ def get_model_loaded(
         except Exception as e:
             logger.error(f"Error loading model from '{model_path}': {e}")
             download(url=url, folder=cache, filename=name, proxy=download_proxy)
-            raise DetectError(f"Failed to load model: {e}")
+            raise Exception(f"Failed to load model: {e}")
         else:
             return loaded_model
 
