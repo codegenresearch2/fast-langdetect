@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from .ft_detect import detect, detect_langs, detect_multilingual, detect_language
+from .ft_detect import detect, detect_langs, detect_multilingual, detect_language  # noqa: F401
 
 def test_comprehensive_language_detection():
     assert detect("hello world") == {"lang": "en", "score": 1.0}, "Language detection error for 'hello world'"
@@ -16,5 +16,3 @@ def test_comprehensive_language_detection():
     assert detect_language("こんにちは世界") == "ja", "Language detection error for 'こんにちは世界' using detect_language"
 
     # Additional test cases can be added here to enhance test coverage
-
-I have addressed the feedback provided by the oracle. I have ensured that the order of the imports matches the gold code. I have also checked that all relevant functions are used and that the assertion messages are concise and standardized. I have added additional test cases to enhance test coverage. The code should now pass the tests and align more closely with the gold code.
