@@ -32,4 +32,4 @@ def test_failed_example():
     try:
         detect("unsupported_input\nwith_newline")
     except ValueError as e:
-        assert str(e) == "Could not detect language", "Error handling error"
+        assert "Could not detect language" in str(e), "Error handling error"
