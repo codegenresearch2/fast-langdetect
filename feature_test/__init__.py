@@ -12,6 +12,10 @@ from fast_langdetect import detect, detect_multilingual, detect_language
 # Expected output: [{'lang': 'en', 'score': 0.9999999999999999}, {'lang': 'zh', 'score': 0.9999999999999999}, {'lang': 'ru', 'score': 0.9999999999999999}]
 print(detect_multilingual("Hello, world!你好世界!Привет, мир!", low_memory=False))
 
+# Testing detect_multilingual function without low_memory parameter
+# Expected output: [{'lang': 'en', 'score': 0.9999999999999999}, {'lang': 'zh', 'score': 0.9999999999999999}, {'lang': 'ru', 'score': 0.9999999999999999}]
+print(detect_multilingual("Hello, world!你好世界!Привет, мир!"))
+
 # Testing detect function with various languages
 print(detect("hello world"))  # English
 print(detect("你好世界"))  # Chinese
