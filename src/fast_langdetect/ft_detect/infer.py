@@ -110,10 +110,12 @@ def detect_multilingual(text: str, *, low_memory: bool = True, model_download_pr
         raise DetectError(f"Multilingual detection failed: {e}")
 
 # Testing multilingual detection functionality
+print("Testing multilingual detection functionality:")
 print(detect_multilingual("Hello, world!你好世界!Привет, мир!", low_memory=False))
 print(detect_multilingual("Hello, world!你好世界!Привет, мир!"))
 
 # Testing language detection with diverse examples
+print("\nTesting language detection with diverse examples:")
 print(detect("hello world"))
 print(detect("你好世界"))
 print(detect("Привет, мир!"))
