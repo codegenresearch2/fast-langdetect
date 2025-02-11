@@ -6,21 +6,17 @@
 
 from fast_langdetect import detect, detect_language, detect_multilingual
 
-# Detect language of a single sentence
-print(detect("你好世界"))
+# Demonstrate language detection for various languages
+print("English: ", detect("hello world"))
+print("Chinese: ", detect("你好世界"))
+print("Japanese: ", detect("こんにちは世界"))
+print("Korean: ", detect("안녕하세요 세계"))
+print("French: ", detect("Bonjour le monde"))
+print("German: ", detect("Hallo Welt"))
+print("Spanish: ", detect("Hola mundo"))
 
 # Detect language of a multilingual sentence
-print(detect_language("你好世界！Hello, world！Привет, мир！"))
+print("Multilingual: ", detect_language("你好世界！Hello, world！Привет, мир！"))
 
 # Detect languages in a multilingual sentence
-print(detect_multilingual("Hello, world!你好世界!Привет, мир!"))
-
-# Demonstrate language detection for various languages
-print(detect("hello world"))
-print(detect("Bonjour le monde"))
-print(detect("Hallo Welt"))
-print(detect("こんにちは世界"))
-print(detect("안녕하세요 세계"))
-
-# Detect languages in a sentence with multiple languages
-print(detect_multilingual("Привет, мир!"))
+print("Multilingual detection: ", detect_multilingual("Hello, world!你好世界!Привет, мир!"))
