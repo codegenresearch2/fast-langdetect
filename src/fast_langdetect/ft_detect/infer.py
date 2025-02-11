@@ -56,14 +56,14 @@ def get_model_loaded(low_memory: bool = False, download_proxy: str = None) -> fa
     model_path = os.path.join(cache, name)
     if Path(model_path).exists():
         if Path(model_path).is_dir():
-            raise Exception(f"{model_path} is a directory")
+            raise DetectError(f"{model_path} is a directory")
         try:
             loaded_model = fasttext.load_model(model_path)
             MODELS[mode] = loaded_model
         except Exception as e:
             logger.error(f"Error loading model {model_path}: {e}")
             download(url=url, folder=cache, filename=name, proxy=download_proxy)
-            raise Exception(f"Failed to load model from {model_path}: {e}")
+            raise DetectError(f"Failed to load model from {model_path}: {e}")
         else:
             return loaded_model
 
