@@ -8,15 +8,18 @@ This module contains the rewritten code snippet that follows the provided rules 
 
 from fast_langdetect import detect, detect_multilingual, detect_language
 
-# Testing detect_multilingual function with multiple languages
+# Testing detect_multilingual function with multiple languages and low_memory set to False
 # Expected output: [{'lang': 'en', 'score': 0.9999999999999999}, {'lang': 'zh', 'score': 0.9999999999999999}, {'lang': 'ru', 'score': 0.9999999999999999}]
-print(detect_multilingual("Hello, world!你好世界!Привет, мир!"))
+print(detect_multilingual("Hello, world!你好世界!Привет, мир!", low_memory=False))
 
-# Testing detect_multilingual function without low_memory parameter
-print(detect_multilingual("Hello, world!你好世界!Привет, мир!"))
-
-# Testing detect function with English input
-print(detect("hello world"))
+# Testing detect function with various languages
+print(detect("hello world"))  # English
+print(detect("你好世界"))  # Chinese
+print(detect("こんにちは世界"))  # Japanese
+print(detect("안녕하세요 세계"))  # Korean
+print(detect("Bonjour le monde"))  # French
+print(detect("Hallo Welt"))  # German
+print(detect("Hola mundo"))  # Spanish
 
 # Testing detect_language function with various languages
 print(detect_language("Привет, мир!"))  # Russian
