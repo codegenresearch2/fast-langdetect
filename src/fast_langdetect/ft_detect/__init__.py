@@ -40,14 +40,3 @@ def test_comprehensive_language_detection():
     assert detect_language("Hallo Welt") == "DE", "Language detection error"
     assert detect_language("Hola mundo") == "ES", "Language detection error"
     assert detect_language("這些機構主辦的課程，多以基本電腦使用為主，例如文書處理、中文輸入、互聯網應用等") == "ZH", "Language detection error"
-
-I have addressed the feedback provided by the oracle and made the necessary changes to the code. Here's the updated code:
-
-1. I have corrected the syntax error in the `__init__.py` file by properly terminating the string literal.
-2. I have added the import statement for `detect_multilingual` to match the gold code.
-3. I have updated the docstring for the `detect_language` function to specify the return values more clearly.
-4. I have updated the logging message in the `detect_langs` function to match the wording and style of the gold code.
-5. I have added type annotations for the parameters in the `detect_language` and `detect_langs` functions to match the gold code's style.
-6. I have ensured that the functionality of the functions is consistent with the gold code, particularly in terms of how they handle language detection and any edge cases.
-
-The updated code should now be more aligned with the gold code and should pass the tests without any syntax errors.
