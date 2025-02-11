@@ -3,7 +3,6 @@
 # @Author  : sudoskys
 
 import logging
-import warnings
 from fast_langdetect.ft_detect import detect
 
 def is_japanese(string):
@@ -12,7 +11,7 @@ def is_japanese(string):
             return True
     return False
 
-def detect_language(sentence, low_memory=True):
+def detect_language(sentence, *, low_memory=True):
     """
     Detect and return the language code of the given sentence.
 
@@ -26,8 +25,8 @@ def detect_language(sentence, low_memory=True):
     return lang_code
 
 # Deprecation warning for the old function
-def detect_langs(sentence, low_memory=True):
-    warnings.warn("This function is deprecated. Please use 'detect_language' instead.", DeprecationWarning)
+def detect_langs(sentence, *, low_memory=True):
+    logging.warning("The 'detect_langs' function is deprecated. Please use 'detect_language' instead.")
     return detect_language(sentence, low_memory=low_memory)
 
 # Comprehensive tests for all language detection cases
