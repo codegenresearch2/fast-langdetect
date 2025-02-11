@@ -22,21 +22,6 @@ print(detect_language("這些機構主辦的課程，多以基本電腦使用為
 # Detecting multiple languages in a sentence
 print("\nMultilingual Detection:")
 print(detect_multilingual("你好世界！Hello, world！Привет, мир！"))
-print(detect_multilingual("Hello, world!你好，世界!Привіт, світ!"))
-
-# Detecting single language for various sentences
-print("\nSingle Language Detection (Various Sentences):")
-print(detect("hello world"))
-print(detect("Привет, мир!"))
-print(detect("Hola, mundo!"))
-print(detect("Bonjour le monde"))
-print(detect("Ciao mondo"))
-print(detect("こんにちは世界"))
-print(detect("안녕하세요 세계"))
-print(detect("Hallo Welt"))
-print(detect("Здравствуйте, мир"))
-print(detect("Привіт, світ!"))
-print(detect("你好，世界"))
 
 # Detecting multiple languages in a sentence with various languages
 print("\nMultilingual Detection (Various Sentences):")
