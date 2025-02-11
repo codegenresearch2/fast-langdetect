@@ -3,6 +3,7 @@
 # @Author  : sudoskys
 
 import logging
+from fast_langdetect.ft_detect import detect, detect_multilingual
 
 def is_japanese(string):
     for ch in string:
@@ -17,7 +18,6 @@ def detect_language(sentence, *, low_memory: bool = True):
     :param low_memory: bool (default: True) whether to use low memory mode
     :return: ZH, EN, JA, KO, FR, DE, ES, .... (two uppercase letters)
     """
-    from fast_langdetect.ft_detect import detect
     lang_code = detect(sentence, low_memory=low_memory).get("lang").upper()
     if lang_code == "JA" and not is_japanese(sentence):
         lang_code = "ZH"
@@ -45,4 +45,5 @@ def test_language_detection():
     assert detect_language("這些機構主辦的課程，多以基本電腦使用為主，例如文書處理、中文輸入、互聯網應用等") == "ZH", "Language detection error"
 
 # Call the test function
-test_language_detection()
+if __name__ == "__main__":
+    test_language_detection()
