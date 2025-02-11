@@ -32,7 +32,7 @@ def get_model_map(low_memory=False):
     else:
         return "high_mem", FTLANG_CACHE, "lid.176.bin", "https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.bin"
 
-def get_model_loaded(low_memory=False, download_proxy=None):
+def get_model_loaded(low_memory=True, download_proxy=None):
     """
     Load the language detection model based on the memory usage preference.
 
@@ -48,6 +48,8 @@ def get_model_loaded(low_memory=False, download_proxy=None):
     model_path = os.path.join(cache, name)
     if not Path(model_path).exists():
         download(url=url, folder=cache, filename=name, proxy=download_proxy, retry_max=3, timeout=20)
+    if Path(model_path).is_dir():
+        raise Exception(f"{model_path} is a directory")
     try:
         loaded_model = fasttext.load_model(model_path)
         MODELS[mode] = loaded_model
@@ -56,7 +58,7 @@ def get_model_loaded(low_memory=False, download_proxy=None):
         raise Exception(f"Failed to load model from {model_path}")
     return loaded_model
 
-def detect(text: str, *, low_memory: bool = False, model_download_proxy: str = None) -> Dict[str, Union[str, float]]:
+def detect(text: str, *, low_memory: bool = True, model_download_proxy: str = None) -> Dict[str, Union[str, float]]:
     """
     Detect the language of a given text using the language detection model.
 
@@ -76,7 +78,7 @@ def detect(text: str, *, low_memory: bool = False, model_download_proxy: str = N
         logger.error(f"Error in detection: {e}")
         raise Exception("Detection failed")
 
-def detect_multilingual(text: str, *, low_memory: bool = False, model_download_proxy: str = None, k: int = 5, threshold: float = 0.0, on_unicode_error: str = "strict") -> List[dict]:
+def detect_multilingual(text: str, *, low_memory: bool = True, model_download_proxy: str = None, k: int = 5, threshold: float = 0.0, on_unicode_error: str = "strict") -> List[dict]:
     """
     Detect multiple languages in a given text using the language detection model.
 
